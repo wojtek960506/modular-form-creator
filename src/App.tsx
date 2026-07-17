@@ -1,16 +1,14 @@
+import { Navigate, Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
-import { CreateResourceForm } from './resources/components/CreateResourceForm'
-import { ResourcesHeader } from './resources/components/ResourcesHeader'
-import { ResourcesList } from './resources/components/ResourcesList'
+import { ResourcesPage } from './pages/resources/ResourcesPage'
 
 function App() {
   return (
     <AppShell>
-      <ContentCard>
-        <ResourcesHeader />
-        <CreateResourceForm />
-        <ResourcesList />
-      </ContentCard>
+      <Routes>
+        <Route path="/" element={<Navigate to="/resources" replace />} />
+        <Route path="/resources" element={<ResourcesPage />} />
+      </Routes>
     </AppShell>
   )
 }
@@ -23,24 +21,6 @@ const AppShell = styled.div`
 
   @media (min-height: 700px) {
     align-items: stretch;
-    overflow: hidden;
-  }
-`
-
-const ContentCard = styled.div`
-  width: min(100%, 720px);
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.lg};
-  padding: ${({ theme }) => theme.spacing.xl};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.lg};
-  background: ${({ theme }) => theme.colors.surface};
-  box-shadow: ${({ theme }) => theme.shadows.card};
-
-  @media (min-height: 700px) {
-    grid-template-rows: auto auto minmax(0, 1fr);
-    min-height: calc(100vh - ${({ theme }) => theme.spacing.xl} * 2);
-    max-height: calc(100vh - ${({ theme }) => theme.spacing.xl} * 2);
     overflow: hidden;
   }
 `
