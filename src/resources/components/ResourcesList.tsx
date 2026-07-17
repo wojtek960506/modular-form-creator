@@ -1,4 +1,3 @@
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
 import {
   getErrorMessage,
@@ -6,6 +5,21 @@ import {
   resourcesQueryKey,
   type Resource,
 } from '../../resources.api'
+import {
+  EmptyState,
+  EmptyStateText,
+  EmptyStateTitle,
+  FeedbackMessage,
+  List,
+  ResourceItem,
+  ResourceMeta,
+  ResourceName,
+  Section,
+  SectionHeader,
+  SectionMeta,
+  SectionTitle,
+  StateMessage,
+} from './ResourcesList.styles'
 
 export function ResourcesList() {
   const resourcesQuery = useQuery({
@@ -57,80 +71,3 @@ function ResourcesListItem({ resource }: { resource: Resource }) {
     </ResourceItem>
   )
 }
-
-const Section = styled.section`
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.md};
-`
-
-const SectionHeader = styled.div`
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: ${({ theme }) => theme.spacing.sm};
-`
-
-const SectionTitle = styled.h2`
-  font-size: 1.25rem;
-`
-
-const SectionMeta = styled.span`
-  color: ${({ theme }) => theme.colors.inkMuted};
-  font-size: 0.95rem;
-`
-
-const List = styled.ul`
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.sm};
-  margin: 0;
-  padding: 0;
-  list-style: none;
-`
-
-const ResourceItem = styled.li`
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.xs};
-  padding: ${({ theme }) => theme.spacing.md};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.surfaceAlt};
-`
-
-const ResourceName = styled.p`
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.inkStrong};
-`
-
-const ResourceMeta = styled.p`
-  color: ${({ theme }) => theme.colors.inkMuted};
-  font-size: 0.95rem;
-`
-
-const StateMessage = styled.p`
-  color: ${({ theme }) => theme.colors.inkMuted};
-`
-
-const FeedbackMessage = styled.p`
-  margin: 0;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.accentSoft};
-  color: ${({ theme }) => theme.colors.warning};
-`
-
-const EmptyState = styled.div`
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.xs};
-  padding: ${({ theme }) => theme.spacing.lg};
-  border: 1px dashed ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.surfaceAlt};
-`
-
-const EmptyStateTitle = styled.h3`
-  font-size: 1.1rem;
-`
-
-const EmptyStateText = styled.p`
-  color: ${({ theme }) => theme.colors.inkMuted};
-`
