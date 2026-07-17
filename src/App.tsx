@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
-import { ResourcesPage } from './pages/resources/ResourcesPage'
+import { ResourcesPage } from '@pages/resources/ResourcesPage'
 
 function App() {
   return (

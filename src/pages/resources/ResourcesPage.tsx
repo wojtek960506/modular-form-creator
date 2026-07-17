@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { CreateResourceForm } from '../../resources/components/CreateResourceForm'
-import { ResourcesHeader } from '../../resources/components/ResourcesHeader'
-import { ResourcesList } from '../../resources/components/ResourcesList'
+import { CreateResourceForm } from '@resources/components/CreateResourceForm'
+import { ResourcesHeader } from '@resources/components/ResourcesHeader'
+import { ResourcesList } from '@resources/components/ResourcesList'
 
 export function ResourcesPage() {
   return (

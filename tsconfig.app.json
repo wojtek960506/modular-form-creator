@@ -4,6 +4,11 @@
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
+    "paths": {
+      "@design-system/*": ["./src/design-system/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@resources/*": ["./src/resources/*"]
+    },
     "types": ["vite/client"],
     "skipLibCheck": true,
 
