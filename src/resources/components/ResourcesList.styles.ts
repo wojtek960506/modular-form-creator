@@ -3,6 +3,11 @@ import styled from 'styled-components'
 export const Section = styled.section`
   display: grid;
   gap: ${({ theme }) => theme.spacing.md};
+
+  @media (min-height: 700px) {
+    grid-template-rows: auto minmax(0, 1fr);
+    min-height: 0;
+  }
 `
 
 export const SectionHeader = styled.div`
@@ -23,10 +28,16 @@ export const SectionMeta = styled.span`
 
 export const List = styled.ul`
   display: grid;
+  align-content: start;
   gap: ${({ theme }) => theme.spacing.sm};
   margin: 0;
   padding: 0;
   list-style: none;
+
+  @media (min-height: 700px) {
+    min-height: 0;
+    overflow: auto;
+  }
 `
 
 export const ResourceItem = styled.li`

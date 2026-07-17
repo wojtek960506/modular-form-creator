@@ -91,12 +91,13 @@ const Input = styled.input`
 `
 
 const PrimaryButton = styled.button`
-  justify-self: start;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
+  width: 100%;
+  padding: ${({ theme }) => theme.spacing.md};
   border: 0;
-  border-radius: ${({ theme }) => theme.radii.pill};
+  border-radius: ${({ theme }) => theme.radii.md};
   background: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.surface};
+  font: inherit;
   font-weight: 700;
   cursor: pointer;
 

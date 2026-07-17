@@ -19,8 +19,12 @@ const AppShell = styled.div`
   min-height: 100vh;
   display: flex;
   padding: ${({ theme }) => theme.spacing.xl};
-  align-items: center;
   justify-content: center;
+
+  @media (min-height: 700px) {
+    align-items: stretch;
+    overflow: hidden;
+  }
 `
 
 const ContentCard = styled.div`
@@ -32,6 +36,13 @@ const ContentCard = styled.div`
   border-radius: ${({ theme }) => theme.radii.lg};
   background: ${({ theme }) => theme.colors.surface};
   box-shadow: ${({ theme }) => theme.shadows.card};
+
+  @media (min-height: 700px) {
+    grid-template-rows: auto auto minmax(0, 1fr);
+    min-height: calc(100vh - ${({ theme }) => theme.spacing.xl} * 2);
+    max-height: calc(100vh - ${({ theme }) => theme.spacing.xl} * 2);
+    overflow: hidden;
+  }
 `
 
 export default App
