@@ -5,6 +5,7 @@ const apiClient = axios.create({
 })
 
 export const resourcesQueryKey = ['resources'] as const
+export const resourceQueryKey = (resourceId: string) => ['resources', resourceId] as const
 
 export interface BasicInfo {
   resourceName: string
@@ -54,6 +55,12 @@ export async function getResources() {
       sortOrder: 'desc',
     },
   })
+
+  return response.data
+}
+
+export async function getResource(resourceId: string) {
+  const response = await apiClient.get<Resource>(`/api/resources/${resourceId}`)
 
   return response.data
 }

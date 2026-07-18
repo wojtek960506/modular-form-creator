@@ -41,12 +41,17 @@ export const List = styled.ul`
 `
 
 export const ResourceItem = styled.li`
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.xs};
-  padding: ${({ theme }) => theme.spacing.md};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radii.md};
   background: ${({ theme }) => theme.colors.surfaceAlt};
+`
+
+export const ResourceItemLink = styled.a`
+  display: grid;
+  gap: ${({ theme }) => theme.spacing.xs};
+  padding: ${({ theme }) => theme.spacing.md};
+  color: inherit;
+  text-decoration: none;
 `
 
 export const ResourceName = styled.p`

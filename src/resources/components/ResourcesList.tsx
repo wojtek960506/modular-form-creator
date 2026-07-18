@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import {
   getErrorMessage,
@@ -11,6 +12,7 @@ import {
   EmptyStateTitle,
   FeedbackMessage,
   List,
+  ResourceItemLink,
   ResourceItem,
   ResourceMeta,
   ResourceName,
@@ -66,8 +68,10 @@ export function ResourcesList() {
 function ResourcesListItem({ resource }: { resource: Resource }) {
   return (
     <ResourceItem>
-      <ResourceName>{resource.name}</ResourceName>
-      <ResourceMeta>#{resource.resourceId} · {resource.status}</ResourceMeta>
+      <ResourceItemLink as={Link} to={`/resources/${resource.resourceId}`}>
+        <ResourceName>{resource.name}</ResourceName>
+        <ResourceMeta>#{resource.resourceId} · {resource.status}</ResourceMeta>
+      </ResourceItemLink>
     </ResourceItem>
   )
 }
