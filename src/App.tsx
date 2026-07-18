@@ -1,9 +1,16 @@
+import { Navigate, Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
+import { ResourceDetailsPage } from '@pages/resources/ResourceDetailsPage'
+import { ResourcesPage } from '@pages/resources/ResourcesPage'
 
 function App() {
   return (
     <AppShell>
-      <Message>Good luck!</Message>
+      <Routes>
+        <Route path="/" element={<Navigate to="/resources" replace />} />
+        <Route path="/resources" element={<ResourcesPage />} />
+        <Route path="/resources/:resourceId" element={<ResourceDetailsPage />} />
+      </Routes>
     </AppShell>
   )
 }
@@ -11,13 +18,13 @@ function App() {
 const AppShell = styled.div`
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  padding: ${({ theme }) => theme.spacing.xl};
   justify-content: center;
-`
 
-const Message = styled.h1`
-  font-size: 2.5rem;
-  color: ${({ theme }) => theme.colors.inkStrong};
+  @media (min-height: 700px) {
+    align-items: stretch;
+    overflow: hidden;
+  }
 `
 
 export default App
