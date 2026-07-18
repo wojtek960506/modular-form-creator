@@ -1,0 +1,95 @@
+import styled from 'styled-components'
+import { Button } from '@design-system/components/Button'
+import type { Resource } from '@resources-api'
+import {
+  canProvisionResource,
+  isBasicInfoComplete,
+  isProjectDetailsComplete,
+} from '@resources/resourceCompletion'
+import { ResourceModuleCard } from './ResourceModuleCard'
+import { ResourceOverviewHeader } from './ResourceOverviewHeader'
+import { ResourceProgressPanel } from './ResourceProgressPanel'
+
+interface ResourceOverviewContentProps {
+  resource: Resource
+  isCompleting: boolean
+  onOpenBasicInfo: () => void
+  onOpenProjectDetails: () => void
+  onOpenDetails: () => void
+  onCompleteResource: () => void
+}
+
+export function ResourceOverviewContent({
+  resource,
+  isCompleting,
+  onOpenBasicInfo,
+  onOpenProjectDetails,
+  onOpenDetails,
+  onCompleteResource,
+}: ResourceOverviewContentProps) {
+  const basicInfoComplete = isBasicInfoComplete(resource.basicInfo)
+  const projectDetailsComplete = isProjectDetailsComplete(resource.projectDetails)
+
+  return (
+    <>
+      <ResourceOverviewHeader resource={resource} />
+      <ResourceProgressPanel resource={resource} />
+
+      <ModulesGrid>
+        <ResourceModuleCard
+          title="Basic Info"
+          description="Required identity and ownership information for this resource."
+          status={basicInfoComplete ? 'complete' : 'incomplete'}
+          summary={[
+            `Owner: ${resource.basicInfo.owner || 'Not provided'}`,
+            `Priority: ${resource.basicInfo.priority || 'Not provided'}`,
+          ]}
+          actionLabel={basicInfoComplete ? 'Review Basic Info' : 'Open Basic Info'}
+          onOpen={onOpenBasicInfo}
+        />
+
+        <ResourceModuleCard
+          title="Project Details"
+          description="Project scope, budget, category, and assigned team options."
+          status={projectDetailsComplete ? 'complete' : 'incomplete'}
+          summary={[
+            `Project: ${resource.projectDetails.projectName || 'Not provided'}`,
+            `Options: ${
+              resource.projectDetails.options.length > 0
+                ? resource.projectDetails.options.join(', ')
+                : 'Not provided'
+            }`,
+          ]}
+          actionLabel={basicInfoComplete ? 'Open Project Details' : 'Complete Basic Info first'}
+          locked={!basicInfoComplete}
+          onOpen={onOpenProjectDetails}
+        />
+      </ModulesGrid>
+
+      <Actions>
+        <Button type="button" variant="secondary" onClick={onOpenDetails}>
+          View details
+        </Button>
+        <Button
+          type="button"
+          state={canProvisionResource(resource) ? 'normal' : 'locked'}
+          disabled={isCompleting}
+          onClick={onCompleteResource}
+        >
+          {isCompleting ? 'Completing...' : 'Complete resource'}
+        </Button>
+      </Actions>
+    </>
+  )
+}
+
+const ModulesGrid = styled.div`
+  display: grid;
+  gap: ${({ theme }) => theme.spacing.md};
+`
+
+const Actions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.sm};
+`
