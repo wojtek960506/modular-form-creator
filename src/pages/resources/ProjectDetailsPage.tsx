@@ -5,6 +5,7 @@ import { Button } from '@design-system/components/Button'
 import { Card } from '@design-system/components/Card'
 import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
+import { PageHeader } from '@pages/components/PageHeader'
 import { getErrorMessage, getResource, resourceQueryKey } from '@resources-api'
 import { isBasicInfoComplete } from '@resources/resourceCompletion'
 
@@ -35,10 +36,7 @@ export function ProjectDetailsPage() {
 
       {resource ? (
         <>
-          <Header>
-            <Title>Project Details</Title>
-            <Subtitle>{resource.name}</Subtitle>
-          </Header>
+          <PageHeader title="Project Details" subtitle={resource.name} />
 
           {locked ? (
             <ModuleCard variant="outline">
@@ -80,19 +78,6 @@ export function ProjectDetailsPage() {
     </PageCard>
   )
 }
-
-const Header = styled.header`
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.xs};
-`
-
-const Title = styled.h1`
-  color: ${({ theme }) => theme.colors.inkStrong};
-`
-
-const Subtitle = styled.p`
-  color: ${({ theme }) => theme.colors.inkMuted};
-`
 
 const ModuleCard = styled(Card)`
   align-content: start;

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Card } from '@design-system/components/Card'
 import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
+import { PageHeader } from '@pages/components/PageHeader'
 import { getErrorMessage, getResource, resourceQueryKey } from '@resources-api'
 
 export function BasicInfoPage() {
@@ -30,10 +31,7 @@ export function BasicInfoPage() {
 
       {resourceQuery.data ? (
         <>
-          <Header>
-            <Title>Basic Info</Title>
-            <Subtitle>{resourceQuery.data.name}</Subtitle>
-          </Header>
+          <PageHeader title="Basic Info" subtitle={resourceQuery.data.name} />
 
           <Card variant="outline">
             <Field>
@@ -62,19 +60,6 @@ export function BasicInfoPage() {
     </PageCard>
   )
 }
-
-const Header = styled.header`
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.xs};
-`
-
-const Title = styled.h1`
-  color: ${({ theme }) => theme.colors.inkStrong};
-`
-
-const Subtitle = styled.p`
-  color: ${({ theme }) => theme.colors.inkMuted};
-`
 
 const Field = styled.div`
   display: grid;
