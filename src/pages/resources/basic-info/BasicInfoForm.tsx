@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 import styled from 'styled-components'
@@ -6,7 +6,7 @@ import { Button } from '@design-system/components/Button'
 import { Card } from '@design-system/components/Card'
 import { Input } from '@design-system/components/Input'
 import { Select } from '@design-system/components/Select'
-import type { BasicInfo } from '@resources-api'
+import type { BasicInfo, Resource } from '@resources-api'
 import { basicInfoSchema } from './basicInfoForm.schema'
 import {
   PRIORITIES,
@@ -20,7 +20,7 @@ interface BasicInfoFormProps {
   basicInfo: BasicInfo
   disabled: boolean
   isSubmitting: boolean
-  onSubmit: (values: BasicInfoPayload) => void
+  onSubmit: (values: BasicInfoPayload) => Promise<Resource>
 }
 
 export function BasicInfoForm({
@@ -29,11 +29,12 @@ export function BasicInfoForm({
   isSubmitting,
   onSubmit,
 }: BasicInfoFormProps) {
+  const [editing, setEditing] = useState(false)
   const {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<BasicInfoFormValues, unknown, BasicInfoPayload>({
     resolver: zodResolver(basicInfoSchema),
     defaultValues: toBasicInfoFormValues(basicInfo),
@@ -43,9 +44,25 @@ export function BasicInfoForm({
     reset(toBasicInfoFormValues(basicInfo))
   }, [basicInfo, reset])
 
+  const fieldsLocked = disabled || !editing
+
+  async function submitForm(values: BasicInfoPayload) {
+    await onSubmit(values)
+    setEditing(false)
+  }
+
+  function cancelEditing() {
+    reset(toBasicInfoFormValues(basicInfo))
+    setEditing(false)
+  }
+
+  function getModifiedHelperText(dirty: boolean) {
+    return editing && dirty ? 'Modified' : undefined
+  }
+
   return (
     <Card variant="outline">
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(submitForm)}>
         <Controller
           control={control}
           name="resourceName"
@@ -61,11 +78,12 @@ export function BasicInfoForm({
         <Controller
           control={control}
           name="owner"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Input
               {...field}
               label="Owner"
-              state={disabled ? 'locked' : 'normal'}
+              state={fieldsLocked ? 'disabled' : 'normal'}
+              helperText={getModifiedHelperText(fieldState.isDirty)}
               error={errors.owner?.message}
             />
           )}
@@ -73,12 +91,13 @@ export function BasicInfoForm({
         <Controller
           control={control}
           name="email"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Input
               {...field}
               label="Email"
               type="email"
-              state={disabled ? 'locked' : 'normal'}
+              state={fieldsLocked ? 'disabled' : 'normal'}
+              helperText={getModifiedHelperText(fieldState.isDirty)}
               error={errors.email?.message}
             />
           )}
@@ -86,13 +105,14 @@ export function BasicInfoForm({
         <Controller
           control={control}
           name="description"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Input
               {...field}
               label="Description"
               multiline
               rows={5}
-              state={disabled ? 'locked' : 'normal'}
+              state={fieldsLocked ? 'disabled' : 'normal'}
+              helperText={getModifiedHelperText(fieldState.isDirty)}
               error={errors.description?.message}
             />
           )}
@@ -100,20 +120,46 @@ export function BasicInfoForm({
         <Controller
           control={control}
           name="priority"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Select
               {...field}
               label="Priority"
               options={priorityOptions}
-              state={disabled ? 'locked' : 'normal'}
+              state={fieldsLocked ? 'disabled' : 'normal'}
+              helperText={getModifiedHelperText(fieldState.isDirty)}
               error={errors.priority?.message}
             />
           )}
         />
 
-        <Button type="submit" disabled={isSubmitting || disabled}>
-          {isSubmitting ? 'Saving...' : 'Save Basic Info'}
-        </Button>
+        <Actions>
+          {editing && (
+            <>
+              <Button type="submit" disabled={isSubmitting || disabled || !isDirty}>
+                {isSubmitting ? 'Saving...' : 'Save changes'}
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={isSubmitting}
+                onClick={cancelEditing}
+              >
+                Cancel
+              </Button>
+            </>
+          )}
+          
+          {!editing && (
+            <Button
+              type="button"
+              variant="secondary"
+              disabled={disabled}
+              onClick={() => setEditing(true)}
+            >
+              Edit Basic Info
+            </Button>
+          )}
+        </Actions>
       </Form>
     </Card>
   )
@@ -133,4 +179,10 @@ function toBasicInfoFormValues(basicInfo: BasicInfo): BasicInfoFormValues {
 const Form = styled.form`
   display: grid;
   gap: ${({ theme }) => theme.spacing.md};
+`
+
+const Actions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.sm};
 `

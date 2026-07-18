@@ -58,10 +58,11 @@ export function BasicInfoPage() {
         <>
           <PageHeader title="Basic Info" subtitle={resource.name} />
           <BasicInfoForm
+            key={resource.updatedAt}
             basicInfo={resource.basicInfo}
             disabled={formLocked}
             isSubmitting={updateBasicInfoMutation.isPending}
-            onSubmit={(values) => updateBasicInfoMutation.mutate(values)}
+            onSubmit={(values) => updateBasicInfoMutation.mutateAsync(values)}
           />
         </>
       )}
