@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { BackButton } from '@pages/components/BackButton'
 import { getErrorMessage, getResource, resourceQueryKey } from '@resources-api'
 import { BasicInfoSection } from './components/BasicInfoSection'
 import { ProjectDetailsSection } from './components/ProjectDetailsSection'
@@ -8,6 +9,7 @@ import { ResourceDetailsHeader } from './components/ResourceDetailsHeader'
 
 export function ResourceDetailsPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
+  const navigate = useNavigate()
 
   const resourceQuery = useQuery({
     queryKey: resourceQueryKey(resourceId ?? ''),
@@ -17,7 +19,9 @@ export function ResourceDetailsPage() {
 
   return (
     <ContentCard>
-      <BackLink to="/resources">Back to resources</BackLink>
+      <BackButton onClick={() => navigate(`/resources/${resourceId}`)}>
+        Back to overview
+      </BackButton>
 
       {resourceQuery.isLoading ? <StateMessage>Loading resource...</StateMessage> : null}
 
@@ -46,12 +50,6 @@ const ContentCard = styled.div`
   background: ${({ theme }) => theme.colors.surface};
   box-shadow: ${({ theme }) => theme.shadows.card};
   align-content: start;
-`
-
-const BackLink = styled(Link)`
-  color: ${({ theme }) => theme.colors.primaryStrong};
-  font-weight: 600;
-  text-decoration: none;
 `
 
 const StateMessage = styled.p`

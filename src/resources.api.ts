@@ -77,6 +77,12 @@ export async function deleteResource(resourceId: string) {
   return response.data
 }
 
+export async function provisionResource(resourceId: string) {
+  const response = await apiClient.patch<Resource>(`/api/resources/${resourceId}/provisioning`)
+
+  return response.data
+}
+
 export function getErrorMessage(error: unknown) {
   if (axios.isAxiosError(error)) {
     return error.response?.data?.message ?? error.message
