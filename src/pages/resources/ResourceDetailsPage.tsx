@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { BackButton } from '@pages/components/BackButton'
+import { PageCard } from '@pages/components/PageCard'
 import { getErrorMessage, getResource, resourceQueryKey } from '@resources-api'
 import { BasicInfoSection } from './components/BasicInfoSection'
 import { ProjectDetailsSection } from './components/ProjectDetailsSection'
@@ -18,7 +19,7 @@ export function ResourceDetailsPage() {
   })
 
   return (
-    <ContentCard>
+    <PageCard>
       <BackButton onClick={() => navigate(`/resources/${resourceId}`)}>
         Back to overview
       </BackButton>
@@ -36,21 +37,9 @@ export function ResourceDetailsPage() {
           <ProjectDetailsSection resource={resourceQuery.data} />
         </>
       ) : null}
-    </ContentCard>
+    </PageCard>
   )
 }
-
-const ContentCard = styled.div`
-  width: min(100%, 720px);
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.lg};
-  padding: ${({ theme }) => theme.spacing.xl};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.lg};
-  background: ${({ theme }) => theme.colors.surface};
-  box-shadow: ${({ theme }) => theme.shadows.card};
-  align-content: start;
-`
 
 const StateMessage = styled.p`
   color: ${({ theme }) => theme.colors.inkMuted};

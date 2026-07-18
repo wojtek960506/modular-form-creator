@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
 import { Card } from '@design-system/components/Card'
 import { BackButton } from '@pages/components/BackButton'
+import { PageCard } from '@pages/components/PageCard'
 import { getErrorMessage, getResource, resourceQueryKey } from '@resources-api'
 import { isBasicInfoComplete } from '@resources/resourceCompletion'
 
@@ -21,7 +22,7 @@ export function ProjectDetailsPage() {
   const locked = resource ? !isBasicInfoComplete(resource.basicInfo) : false
 
   return (
-    <ContentCard>
+    <PageCard>
       <BackButton onClick={() => navigate(`/resources/${resourceId}`)}>
         Back to overview
       </BackButton>
@@ -76,21 +77,9 @@ export function ProjectDetailsPage() {
           )}
         </>
       ) : null}
-    </ContentCard>
+    </PageCard>
   )
 }
-
-const ContentCard = styled.div`
-  width: min(100%, 720px);
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.lg};
-  padding: ${({ theme }) => theme.spacing.xl};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.lg};
-  background: ${({ theme }) => theme.colors.surface};
-  box-shadow: ${({ theme }) => theme.shadows.card};
-  align-content: start;
-`
 
 const Header = styled.header`
   display: grid;

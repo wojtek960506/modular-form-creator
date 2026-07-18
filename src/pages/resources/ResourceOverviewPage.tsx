@@ -5,6 +5,7 @@ import { Badge } from '@design-system/components/Badge'
 import { Button } from '@design-system/components/Button'
 import { Card } from '@design-system/components/Card'
 import { BackButton } from '@pages/components/BackButton'
+import { PageCard } from '@pages/components/PageCard'
 import {
   getErrorMessage,
   getResource,
@@ -40,7 +41,7 @@ export function ResourceOverviewPage() {
   const resource = resourceQuery.data
 
   return (
-    <ContentCard>
+    <PageCard>
       <BackButton onClick={() => navigate('/resources')}>
         Back to resources
       </BackButton>
@@ -116,7 +117,7 @@ export function ResourceOverviewPage() {
           </Actions>
         </>
       ) : null}
-    </ContentCard>
+    </PageCard>
   )
 }
 
@@ -138,7 +139,7 @@ function ProgressPanel({ resource }: { resource: Resource }) {
   const completedModulesCount = getCompletedModulesCount(resource)
 
   return (
-    <ProgressCard variant="outline">
+    <Card variant="outline">
       <ProgressCopy>
         <ProgressLabel>Module progress</ProgressLabel>
         <ProgressValue>{completedModulesCount} of 2 completed</ProgressValue>
@@ -146,7 +147,7 @@ function ProgressPanel({ resource }: { resource: Resource }) {
       <ProgressTrack aria-label={`${completedModulesCount} of 2 modules completed`}>
         <ProgressFill $completedModulesCount={completedModulesCount} />
       </ProgressTrack>
-    </ProgressCard>
+    </Card>
   )
 }
 
@@ -168,7 +169,7 @@ function ModuleCard({
   onOpen: () => void
 }) {
   return (
-    <WorkflowCard variant="outline">
+    <Card variant="outline">
       <ModuleHeader>
         <ModuleTitle>{title}</ModuleTitle>
         <Badge variant={status === 'complete' ? 'success' : 'neutral'}>
@@ -189,21 +190,9 @@ function ModuleCard({
       >
         {actionLabel}
       </Button>
-    </WorkflowCard>
+    </Card>
   )
 }
-
-const ContentCard = styled.div`
-  width: min(100%, 720px);
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.lg};
-  padding: ${({ theme }) => theme.spacing.xl};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.lg};
-  background: ${({ theme }) => theme.colors.surface};
-  box-shadow: ${({ theme }) => theme.shadows.card};
-  align-content: start;
-`
 
 const Header = styled.header`
   display: grid;
@@ -219,10 +208,6 @@ const HeaderMeta = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
   color: ${({ theme }) => theme.colors.inkMuted};
-`
-
-const ProgressCard = styled(Card)`
-  gap: ${({ theme }) => theme.spacing.sm};
 `
 
 const ProgressCopy = styled.div`
@@ -259,10 +244,6 @@ const ProgressFill = styled.div<{ $completedModulesCount: number }>`
 const ModulesGrid = styled.div`
   display: grid;
   gap: ${({ theme }) => theme.spacing.md};
-`
-
-const WorkflowCard = styled(Card)`
-  align-content: start;
 `
 
 const ModuleHeader = styled.div`

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Card } from '@design-system/components/Card'
 import { BackButton } from '@pages/components/BackButton'
+import { PageCard } from '@pages/components/PageCard'
 import { getErrorMessage, getResource, resourceQueryKey } from '@resources-api'
 
 export function BasicInfoPage() {
@@ -16,7 +17,7 @@ export function BasicInfoPage() {
   })
 
   return (
-    <ContentCard>
+    <PageCard>
       <BackButton onClick={() => navigate(`/resources/${resourceId}`)}>
         Back to overview
       </BackButton>
@@ -34,7 +35,7 @@ export function BasicInfoPage() {
             <Subtitle>{resourceQuery.data.name}</Subtitle>
           </Header>
 
-          <ModuleCard variant="outline">
+          <Card variant="outline">
             <Field>
               <FieldLabel>Resource name</FieldLabel>
               <FieldValue>{resourceQuery.data.basicInfo.resourceName || 'Not provided'}</FieldValue>
@@ -55,24 +56,12 @@ export function BasicInfoPage() {
               <FieldLabel>Priority</FieldLabel>
               <FieldValue>{resourceQuery.data.basicInfo.priority || 'Not provided'}</FieldValue>
             </Field>
-          </ModuleCard>
+          </Card>
         </>
       ) : null}
-    </ContentCard>
+    </PageCard>
   )
 }
-
-const ContentCard = styled.div`
-  width: min(100%, 720px);
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.lg};
-  padding: ${({ theme }) => theme.spacing.xl};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.lg};
-  background: ${({ theme }) => theme.colors.surface};
-  box-shadow: ${({ theme }) => theme.shadows.card};
-  align-content: start;
-`
 
 const Header = styled.header`
   display: grid;
@@ -85,10 +74,6 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   color: ${({ theme }) => theme.colors.inkMuted};
-`
-
-const ModuleCard = styled(Card)`
-  align-content: start;
 `
 
 const Field = styled.div`
