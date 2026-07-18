@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
@@ -6,23 +6,36 @@ import { Card } from '@design-system/components/Card'
 import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
 import { PageHeader } from '@pages/components/PageHeader'
-import { ReadonlyField } from '@pages/components/ReadonlyField'
 import { FeedbackMessage, StateMessage } from '@pages/components/messages'
-import { getErrorMessage, getResource, resourceQueryKey } from '@resources-api'
+import {
+  getErrorMessage,
+  getResource,
+  resourceQueryKey,
+  updateProjectDetails,
+} from '@resources-api'
 import { isBasicInfoComplete } from '@resources/resourceCompletion'
+import { ProjectDetailsForm, type ProjectDetailsPayload } from './project-details'
 
 export function ProjectDetailsPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const resourceQuery = useQuery({
     queryKey: resourceQueryKey(resourceId ?? ''),
     queryFn: () => getResource(resourceId ?? ''),
     enabled: Boolean(resourceId),
   })
+  const updateProjectDetailsMutation = useMutation({
+    mutationFn: (values: ProjectDetailsPayload) => updateProjectDetails(resourceId ?? '', values),
+    onSuccess: async (resource) => {
+      await queryClient.setQueryData(resourceQueryKey(String(resource.resourceId)), resource)
+    },
+  })
 
   const resource = resourceQuery.data
   const locked = resource ? !isBasicInfoComplete(resource.basicInfo) : false
+  const formLocked = resource?.status === 'completed'
 
   return (
     <PageCard>
@@ -34,6 +47,10 @@ export function ProjectDetailsPage() {
 
       {resourceQuery.isError ? (
         <FeedbackMessage>{getErrorMessage(resourceQuery.error)}</FeedbackMessage>
+      ) : null}
+
+      {updateProjectDetailsMutation.isError ? (
+        <FeedbackMessage>{getErrorMessage(updateProjectDetailsMutation.error)}</FeedbackMessage>
       ) : null}
 
       {resource ? (
@@ -52,19 +69,13 @@ export function ProjectDetailsPage() {
               </Button>
             </Card>
           ) : (
-            <Card variant="outline">
-              <ReadonlyField label="Project name" value={resource.projectDetails.projectName} />
-              <ReadonlyField label="Budget" value={resource.projectDetails.budget} />
-              <ReadonlyField label="Category" value={resource.projectDetails.category} />
-              <ReadonlyField
-                label="Options"
-                value={
-                  resource.projectDetails.options.length > 0
-                    ? resource.projectDetails.options.join(', ')
-                    : undefined
-                }
-              />
-            </Card>
+            <ProjectDetailsForm
+              key={resource.updatedAt}
+              disabled={formLocked}
+              isSubmitting={updateProjectDetailsMutation.isPending}
+              projectDetails={resource.projectDetails}
+              onSubmit={(values) => updateProjectDetailsMutation.mutateAsync(values)}
+            />
           )}
         </>
       ) : null}

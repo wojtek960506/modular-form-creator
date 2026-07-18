@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Badge } from '@design-system/components/Badge'
 import { Button } from '@design-system/components/Button'
 import type { Resource } from '@resources-api'
 import {
@@ -8,7 +9,6 @@ import {
   ResourceItemBody,
   ResourceItemContent,
   ResourceItemLink,
-  ResourceMeta,
   ResourceName,
 } from './ResourcesList.styles'
 
@@ -29,7 +29,9 @@ export function ResourcesListItem({
         <ResourceItemContent>
           <ResourceItemLink as={Link} to={`/resources/${resource.resourceId}`}>
             <ResourceName>{resource.name}</ResourceName>
-            <ResourceMeta>#{resource.resourceId} · {resource.status}</ResourceMeta>
+            <Badge variant={resource.status === 'completed' ? 'success' : 'info'}>
+              {resource.status}
+            </Badge>
           </ResourceItemLink>
         </ResourceItemContent>
 

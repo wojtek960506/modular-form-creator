@@ -7,8 +7,7 @@ export function ResourceOverviewHeader({ resource }: { resource: Resource }) {
     <Header>
       <Title>{resource.name}</Title>
       <HeaderMeta>
-        <span>#{resource.resourceId}</span>
-        <Badge variant={resource.status === 'completed' ? 'success' : 'neutral'}>
+        <Badge variant={resource.status === 'completed' ? 'success' : 'info'}>
           {resource.status}
         </Badge>
       </HeaderMeta>

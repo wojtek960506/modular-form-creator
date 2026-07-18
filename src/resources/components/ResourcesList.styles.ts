@@ -65,6 +65,7 @@ export const ResourceItemLink = styled.a`
   padding: ${({ theme }) => theme.spacing.md};
   color: inherit;
   text-decoration: none;
+  justify-items: start;
 `
 
 export const ResourceItemActions = styled.div`
@@ -86,11 +87,6 @@ export const DeleteButton = styled(Button)`
 export const ResourceName = styled.p`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.inkStrong};
-`
-
-export const ResourceMeta = styled.p`
-  color: ${({ theme }) => theme.colors.inkMuted};
-  font-size: 0.95rem;
 `
 
 export const EmptyState = styled.div`

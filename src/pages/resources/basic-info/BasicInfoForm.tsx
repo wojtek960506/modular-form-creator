@@ -4,8 +4,8 @@ import { FormProvider, useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import { Card } from '@design-system/components/Card'
 import type { BasicInfo, Resource } from '@resources-api'
+import { ModuleFormActions } from '../components/ModuleFormActions'
 import { BasicInfoFields } from './BasicInfoFields'
-import { BasicInfoFormActions } from './BasicInfoFormActions'
 import { basicInfoSchema } from './basicInfoForm.schema'
 import {
   PRIORITIES,
@@ -60,14 +60,17 @@ export function BasicInfoForm({
         <Form onSubmit={handleSubmit(submitForm)}>
           <BasicInfoFields editing={editing} fieldsLocked={fieldsLocked} />
 
-          <BasicInfoFormActions
-            disabled={disabled}
-            editing={editing}
-            isDirty={isDirty}
-            isSubmitting={isSubmitting}
-            onCancel={cancelEditing}
-            onEdit={() => setEditing(true)}
-          />
+          {!disabled && (
+            <ModuleFormActions
+              disabled={disabled}
+              editLabel="Edit Basic Info"
+              editing={editing}
+              isDirty={isDirty}
+              isSubmitting={isSubmitting}
+              onCancel={cancelEditing}
+              onEdit={() => setEditing(true)}
+            />
+          )}
         </Form>
       </FormProvider>
     </Card>

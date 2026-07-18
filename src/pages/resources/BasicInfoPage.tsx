@@ -48,12 +48,6 @@ export function BasicInfoPage() {
         <FeedbackMessage>{getErrorMessage(updateBasicInfoMutation.error)}</FeedbackMessage>
       )}
 
-      {formLocked && (
-        <FeedbackMessage>
-          Completed resources cannot be updated through module PATCH endpoints.
-        </FeedbackMessage>
-      )}
-
       {resource && (
         <>
           <PageHeader title="Basic Info" subtitle={resource.name} />

@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
 
-interface BasicInfoFormActionsProps {
+interface ModuleFormActionsProps {
   disabled: boolean
+  editLabel: string
   editing: boolean
   isDirty: boolean
   isSubmitting: boolean
@@ -10,14 +11,15 @@ interface BasicInfoFormActionsProps {
   onEdit: () => void
 }
 
-export function BasicInfoFormActions({
+export function ModuleFormActions({
   disabled,
+  editLabel,
   editing,
   isDirty,
   isSubmitting,
   onCancel,
   onEdit,
-}: BasicInfoFormActionsProps) {
+}: ModuleFormActionsProps) {
   return (
     <Actions>
       {editing && (
@@ -43,7 +45,7 @@ export function BasicInfoFormActions({
           disabled={disabled}
           onClick={onEdit}
         >
-          Edit Basic Info
+          {editLabel}
         </Button>
       )}
     </Actions>
