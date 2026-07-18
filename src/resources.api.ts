@@ -83,6 +83,12 @@ export async function provisionResource(resourceId: string) {
   return response.data
 }
 
+export async function updateBasicInfo(resourceId: string, payload: BasicInfo) {
+  const response = await apiClient.patch<Resource>(`/api/resources/${resourceId}/basic-info`, payload)
+
+  return response.data
+}
+
 export function getErrorMessage(error: unknown) {
   if (axios.isAxiosError(error)) {
     return error.response?.data?.message ?? error.message
