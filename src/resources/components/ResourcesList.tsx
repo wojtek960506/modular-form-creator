@@ -7,16 +7,18 @@ import {
   resourcesQueryKey,
 } from '@resources-api'
 import {
+  FeedbackMessage,
+  StateMessage,
+} from '@pages/components/messages'
+import {
   EmptyState,
   EmptyStateText,
   EmptyStateTitle,
-  FeedbackMessage,
   List,
   Section,
   SectionHeader,
   SectionMeta,
   SectionTitle,
-  StateMessage,
 } from './ResourcesList.styles'
 import { ResourcesListItem } from './ResourcesListItem'
 

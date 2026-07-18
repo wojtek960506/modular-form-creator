@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
-import styled from 'styled-components'
 import { Card } from '@design-system/components/Card'
 import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
 import { PageHeader } from '@pages/components/PageHeader'
+import { ReadonlyField } from '@pages/components/ReadonlyField'
+import { FeedbackMessage, StateMessage } from '@pages/components/messages'
 import { getErrorMessage, getResource, resourceQueryKey } from '@resources-api'
 
 export function BasicInfoPage() {
@@ -34,56 +35,14 @@ export function BasicInfoPage() {
           <PageHeader title="Basic Info" subtitle={resourceQuery.data.name} />
 
           <Card variant="outline">
-            <Field>
-              <FieldLabel>Resource name</FieldLabel>
-              <FieldValue>{resourceQuery.data.basicInfo.resourceName || 'Not provided'}</FieldValue>
-            </Field>
-            <Field>
-              <FieldLabel>Owner</FieldLabel>
-              <FieldValue>{resourceQuery.data.basicInfo.owner || 'Not provided'}</FieldValue>
-            </Field>
-            <Field>
-              <FieldLabel>Email</FieldLabel>
-              <FieldValue>{resourceQuery.data.basicInfo.email || 'Not provided'}</FieldValue>
-            </Field>
-            <Field>
-              <FieldLabel>Description</FieldLabel>
-              <FieldValue>{resourceQuery.data.basicInfo.description || 'Not provided'}</FieldValue>
-            </Field>
-            <Field>
-              <FieldLabel>Priority</FieldLabel>
-              <FieldValue>{resourceQuery.data.basicInfo.priority || 'Not provided'}</FieldValue>
-            </Field>
+            <ReadonlyField label="Resource name" value={resourceQuery.data.basicInfo.resourceName} />
+            <ReadonlyField label="Owner" value={resourceQuery.data.basicInfo.owner} />
+            <ReadonlyField label="Email" value={resourceQuery.data.basicInfo.email} />
+            <ReadonlyField label="Description" value={resourceQuery.data.basicInfo.description} />
+            <ReadonlyField label="Priority" value={resourceQuery.data.basicInfo.priority} />
           </Card>
         </>
       ) : null}
     </PageCard>
   )
 }
-
-const Field = styled.div`
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.xs};
-`
-
-const FieldLabel = styled.p`
-  color: ${({ theme }) => theme.colors.inkMuted};
-  font-size: 0.95rem;
-`
-
-const FieldValue = styled.p`
-  color: ${({ theme }) => theme.colors.inkStrong};
-  font-weight: 600;
-`
-
-const StateMessage = styled.p`
-  color: ${({ theme }) => theme.colors.inkMuted};
-`
-
-const FeedbackMessage = styled.p`
-  margin: 0;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.accentSoft};
-  color: ${({ theme }) => theme.colors.warning};
-`

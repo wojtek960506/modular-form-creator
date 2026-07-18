@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
 import { Input } from '@design-system/components/Input'
+import { FeedbackMessage } from '@pages/components/messages'
 import { createResource, getErrorMessage, resourcesQueryKey } from '../../resources.api'
 
 export function CreateResourceForm() {
@@ -65,12 +66,4 @@ const FormWrapper = styled.div`
 const Form = styled.form`
   display: grid;
   gap: ${({ theme }) => theme.spacing.md};
-`
-
-const FeedbackMessage = styled.p`
-  margin: 0;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.accentSoft};
-  color: ${({ theme }) => theme.colors.warning};
 `

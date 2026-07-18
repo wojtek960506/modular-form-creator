@@ -6,6 +6,7 @@ import { Button } from '@design-system/components/Button'
 import { Card } from '@design-system/components/Card'
 import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
+import { FeedbackMessage, StateMessage } from '@pages/components/messages'
 import {
   getErrorMessage,
   getResource,
@@ -274,16 +275,4 @@ const Actions = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.sm};
-`
-
-const StateMessage = styled.p`
-  color: ${({ theme }) => theme.colors.inkMuted};
-`
-
-const FeedbackMessage = styled.p`
-  margin: 0;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.accentSoft};
-  color: ${({ theme }) => theme.colors.warning};
 `
