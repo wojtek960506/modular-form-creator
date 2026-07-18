@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import styled from 'styled-components'
+import { Button } from '@design-system/components/Button'
+import { Input } from '@design-system/components/Input'
 import { createResource, getErrorMessage, resourcesQueryKey } from '../../resources.api'
 
 export function CreateResourceForm() {
@@ -30,23 +32,22 @@ export function CreateResourceForm() {
   return (
     <FormWrapper>
       <Form onSubmit={handleSubmit}>
-        <FieldGroup>
-          <Label htmlFor="resourceName">Resource name</Label>
-          <Input
-            id="resourceName"
-            name="resourceName"
-            value={resourceName}
-            onChange={(event) => setResourceName(event.target.value)}
-            placeholder="e.g. Customer onboarding"
-          />
-        </FieldGroup>
+        <Input
+          id="resourceName"
+          name="resourceName"
+          label="Resource name"
+          value={resourceName}
+          onChange={(event) => setResourceName(event.target.value)}
+          placeholder="e.g. Customer onboarding"
+        />
 
-        <PrimaryButton
+        <Button
           type="submit"
+          fullWidth
           disabled={createResourceMutation.isPending || resourceName.trim().length === 0}
         >
           {createResourceMutation.isPending ? 'Creating...' : 'Create resource'}
-        </PrimaryButton>
+        </Button>
       </Form>
 
       {createResourceMutation.isError ? (
@@ -64,47 +65,6 @@ const FormWrapper = styled.div`
 const Form = styled.form`
   display: grid;
   gap: ${({ theme }) => theme.spacing.md};
-`
-
-const FieldGroup = styled.div`
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.xs};
-`
-
-const Label = styled.label`
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.inkStrong};
-`
-
-const Input = styled.input`
-  width: 100%;
-  padding: ${({ theme }) => theme.spacing.md};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.surfaceAlt};
-  color: ${({ theme }) => theme.colors.inkStrong};
-  font: inherit;
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.inkMuted};
-  }
-`
-
-const PrimaryButton = styled.button`
-  width: 100%;
-  padding: ${({ theme }) => theme.spacing.md};
-  border: 0;
-  border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.surface};
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
 `
 
 const FeedbackMessage = styled.p`

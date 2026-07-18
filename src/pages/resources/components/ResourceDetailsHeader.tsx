@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Badge } from '@design-system/components/Badge'
 import type { Resource } from '@resources-api'
 
 export function ResourceDetailsHeader({ resource }: { resource: Resource }) {
@@ -7,7 +8,9 @@ export function ResourceDetailsHeader({ resource }: { resource: Resource }) {
       <Title>{resource.name}</Title>
       <Meta>
         <span>#{resource.resourceId}</span>
-        <StatusBadge $status={resource.status}>{resource.status}</StatusBadge>
+        <Badge variant={resource.status === 'completed' ? 'success' : 'warning'}>
+          {resource.status}
+        </Badge>
       </Meta>
     </Header>
   )
@@ -27,16 +30,4 @@ const Meta = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
   color: ${({ theme }) => theme.colors.inkMuted};
-`
-
-const StatusBadge = styled.span<{ $status: 'draft' | 'completed' }>`
-  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
-  border-radius: ${({ theme }) => theme.radii.pill};
-  background: ${({ theme, $status }) =>
-    $status === 'completed' ? theme.colors.primary : theme.colors.surfaceAlt};
-  color: ${({ theme, $status }) =>
-    $status === 'completed' ? theme.colors.surface : theme.colors.inkStrong};
-  font-size: 0.875rem;
-  font-weight: 700;
-  text-transform: capitalize;
 `
