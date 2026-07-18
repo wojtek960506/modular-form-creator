@@ -71,6 +71,12 @@ export async function createResource(payload: CreateResourceInput) {
   return response.data
 }
 
+export async function deleteResource(resourceId: string) {
+  const response = await apiClient.delete<Resource>(`/api/resources/${resourceId}`)
+
+  return response.data
+}
+
 export function getErrorMessage(error: unknown) {
   if (axios.isAxiosError(error)) {
     return error.response?.data?.message ?? error.message

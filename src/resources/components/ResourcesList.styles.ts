@@ -1,3 +1,4 @@
+import { Button } from '@design-system/components/Button'
 import styled from 'styled-components'
 
 export const Section = styled.section`
@@ -46,12 +47,40 @@ export const ResourceItem = styled.li`
   background: ${({ theme }) => theme.colors.surfaceAlt};
 `
 
+export const ResourceItemBody = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.spacing.md};
+`
+
+export const ResourceItemContent = styled.div`
+  min-width: 0;
+  flex: 1;
+`
+
 export const ResourceItemLink = styled.a`
   display: grid;
   gap: ${({ theme }) => theme.spacing.xs};
   padding: ${({ theme }) => theme.spacing.md};
   color: inherit;
   text-decoration: none;
+`
+
+export const ResourceItemActions = styled.div`
+  display: flex;
+  align-items: center;
+  padding-right: ${({ theme }) => theme.spacing.md};
+`
+
+export const DeleteButton = styled(Button)`
+  color: ${({ theme }) => theme.colors.warning};
+
+  &:not(:disabled):hover {
+    border-color: ${({ theme }) => theme.colors.warning};
+    background: ${({ theme }) => theme.colors.accentSoft};
+    color: ${({ theme }) => theme.colors.warning};
+  }
 `
 
 export const ResourceName = styled.p`

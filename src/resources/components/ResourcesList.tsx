@@ -1,32 +1,43 @@
-import { Link } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
+  deleteResource,
   getErrorMessage,
   getResources,
   resourcesQueryKey,
-  type Resource,
-} from '../../resources.api'
+} from '@resources-api'
 import {
   EmptyState,
   EmptyStateText,
   EmptyStateTitle,
   FeedbackMessage,
   List,
-  ResourceItemLink,
-  ResourceItem,
-  ResourceMeta,
-  ResourceName,
   Section,
   SectionHeader,
   SectionMeta,
   SectionTitle,
   StateMessage,
 } from './ResourcesList.styles'
+import { ResourcesListItem } from './ResourcesListItem'
 
 export function ResourcesList() {
+  const [deletingResourceId, setDeletingResourceId] = useState<string | null>(null)
+  const queryClient = useQueryClient()
   const resourcesQuery = useQuery({
     queryKey: resourcesQueryKey,
     queryFn: getResources,
+  })
+  const deleteResourceMutation = useMutation({
+    mutationFn: deleteResource,
+    onMutate: async (resourceId) => {
+      setDeletingResourceId(resourceId)
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: resourcesQueryKey })
+    },
+    onSettled: async () => {
+      setDeletingResourceId(null)
+    },
   })
 
   const resources = resourcesQuery.data?.items ?? []
@@ -57,21 +68,15 @@ export function ResourcesList() {
       {!resourcesQuery.isLoading && resources.length > 0 ? (
         <List>
           {resources.map((resource) => (
-            <ResourcesListItem key={resource._id} resource={resource} />
+            <ResourcesListItem
+              key={resource._id}
+              resource={resource}
+              isDeleting={deletingResourceId === String(resource.resourceId)}
+              onDelete={() => deleteResourceMutation.mutate(String(resource.resourceId))}
+            />
           ))}
         </List>
       ) : null}
     </Section>
-  )
-}
-
-function ResourcesListItem({ resource }: { resource: Resource }) {
-  return (
-    <ResourceItem>
-      <ResourceItemLink as={Link} to={`/resources/${resource.resourceId}`}>
-        <ResourceName>{resource.name}</ResourceName>
-        <ResourceMeta>#{resource.resourceId} · {resource.status}</ResourceMeta>
-      </ResourceItemLink>
-    </ResourceItem>
   )
 }
