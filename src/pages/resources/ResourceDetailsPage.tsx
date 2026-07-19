@@ -7,10 +7,12 @@ import { getErrorMessage, getResource, resourceQueryKey } from '@resources-api'
 import { BasicInfoSection } from './components/BasicInfoSection'
 import { ProjectDetailsSection } from './components/ProjectDetailsSection'
 import { ResourceDetailsHeader } from './components/ResourceDetailsHeader'
+import { useResourceDrafts } from './resource-drafts'
 
 export function ResourceDetailsPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
   const navigate = useNavigate()
+  const { getDraft, getDraftResource, hasDraftChanges } = useResourceDrafts()
 
   const resourceQuery = useQuery({
     queryKey: resourceQueryKey(resourceId ?? ''),
@@ -32,9 +34,20 @@ export function ResourceDetailsPage() {
 
       {resourceQuery.data ? (
         <>
-          <ResourceDetailsHeader resource={resourceQuery.data} />
-          <BasicInfoSection resource={resourceQuery.data} />
-          <ProjectDetailsSection resource={resourceQuery.data} />
+          <ResourceDetailsHeader
+            resource={getDraftResource(resourceQuery.data)}
+            hasUnsavedChanges={hasDraftChanges(String(resourceQuery.data.resourceId))}
+          />
+          <BasicInfoSection
+            draftBasicInfo={getDraft(String(resourceQuery.data.resourceId))?.basicInfo}
+            resource={getDraftResource(resourceQuery.data)}
+            persistedResource={resourceQuery.data}
+          />
+          <ProjectDetailsSection
+            draftProjectDetails={getDraft(String(resourceQuery.data.resourceId))?.projectDetails}
+            resource={getDraftResource(resourceQuery.data)}
+            persistedResource={resourceQuery.data}
+          />
         </>
       ) : null}
     </PageCard>

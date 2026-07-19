@@ -17,15 +17,19 @@ import {
 interface ProjectDetailsFormProps {
   disabled: boolean
   isSubmitting: boolean
-  onSubmit: (values: ProjectDetailsPayload) => Promise<Resource>
+  onSubmit: (values: ProjectDetailsPayload) => Promise<Resource | void>
+  persistedProjectDetails?: ProjectDetails
   projectDetails: ProjectDetails
+  saveLabel?: string
 }
 
 export function ProjectDetailsForm({
   disabled,
   isSubmitting,
   onSubmit,
+  persistedProjectDetails,
   projectDetails,
+  saveLabel,
 }: ProjectDetailsFormProps) {
   const [editing, setEditing] = useState(false)
   const form = useForm<ProjectDetailsFormValues, unknown, ProjectDetailsPayload>({
@@ -58,7 +62,11 @@ export function ProjectDetailsForm({
     <Card variant="outline">
       <FormProvider {...form}>
         <Form onSubmit={handleSubmit(submitForm)}>
-          <ProjectDetailsFields editing={editing} fieldsLocked={fieldsLocked} />
+          <ProjectDetailsFields
+            editing={editing}
+            fieldsLocked={fieldsLocked}
+            persistedProjectDetails={persistedProjectDetails}
+          />
 
           {!disabled && (
             <ModuleFormActions
@@ -69,6 +77,7 @@ export function ProjectDetailsForm({
               isSubmitting={isSubmitting}
               onCancel={cancelEditing}
               onEdit={() => setEditing(true)}
+              saveLabel={saveLabel}
             />
           )}
         </Form>

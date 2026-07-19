@@ -15,11 +15,13 @@ import {
 } from '@resources-api'
 import { isBasicInfoComplete } from '@resources/resourceCompletion'
 import { ProjectDetailsForm, type ProjectDetailsPayload } from './project-details'
+import { useResourceDrafts } from './resource-drafts'
 
 export function ProjectDetailsPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { getDraftResource, updateProjectDetailsDraft } = useResourceDrafts()
 
   const resourceQuery = useQuery({
     queryKey: resourceQueryKey(resourceId ?? ''),
@@ -34,8 +36,20 @@ export function ProjectDetailsPage() {
   })
 
   const resource = resourceQuery.data
-  const locked = resource ? !isBasicInfoComplete(resource.basicInfo) : false
-  const formLocked = resource?.status === 'completed'
+  const draftResource = resource ? getDraftResource(resource) : undefined
+  const isCompleted = resource?.status === 'completed'
+  const locked = draftResource
+    ? draftResource.status === 'draft' && !isBasicInfoComplete(draftResource.basicInfo)
+    : false
+
+  async function submitProjectDetails(values: ProjectDetailsPayload) {
+    if (isCompleted && resourceId) {
+      updateProjectDetailsDraft(resourceId, values)
+      return
+    }
+
+    return updateProjectDetailsMutation.mutateAsync(values)
+  }
 
   return (
     <PageCard>
@@ -53,9 +67,9 @@ export function ProjectDetailsPage() {
         <FeedbackMessage>{getErrorMessage(updateProjectDetailsMutation.error)}</FeedbackMessage>
       ) : null}
 
-      {resource ? (
+      {draftResource ? (
         <>
-          <PageHeader title="Project Details" subtitle={resource.name} />
+          <PageHeader title="Project Details" subtitle={draftResource.name} />
 
           {locked ? (
             <Card variant="outline">
@@ -63,18 +77,20 @@ export function ProjectDetailsPage() {
               <StateMessage>Complete Basic Info before opening this module.</StateMessage>
               <Button
                 type="button"
-                onClick={() => navigate(`/resources/${resource.resourceId}/basic-info`)}
+                onClick={() => navigate(`/resources/${draftResource.resourceId}/basic-info`)}
               >
                 Open Basic Info
               </Button>
             </Card>
           ) : (
             <ProjectDetailsForm
-              key={resource.updatedAt}
-              disabled={formLocked}
+              key={draftResource.updatedAt}
+              disabled={false}
               isSubmitting={updateProjectDetailsMutation.isPending}
-              projectDetails={resource.projectDetails}
-              onSubmit={(values) => updateProjectDetailsMutation.mutateAsync(values)}
+              projectDetails={draftResource.projectDetails}
+              onSubmit={submitProjectDetails}
+              persistedProjectDetails={isCompleted ? resource?.projectDetails : undefined}
+              saveLabel={isCompleted ? 'Save draft changes' : undefined}
             />
           )}
         </>

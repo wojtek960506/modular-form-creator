@@ -11,11 +11,13 @@ import {
   updateBasicInfo,
 } from '@resources-api'
 import { BasicInfoForm, type BasicInfoPayload } from './basic-info'
+import { useResourceDrafts } from './resource-drafts'
 
 export function BasicInfoPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { getDraftResource, updateBasicInfoDraft } = useResourceDrafts()
 
   const resourceQuery = useQuery({
     queryKey: resourceQueryKey(resourceId ?? ''),
@@ -30,7 +32,17 @@ export function BasicInfoPage() {
   })
 
   const resource = resourceQuery.data
-  const formLocked = resource?.status === 'completed'
+  const draftResource = resource ? getDraftResource(resource) : undefined
+  const isCompleted = resource?.status === 'completed'
+
+  async function submitBasicInfo(values: BasicInfoPayload) {
+    if (isCompleted && resourceId) {
+      updateBasicInfoDraft(resourceId, values)
+      return
+    }
+
+    return updateBasicInfoMutation.mutateAsync(values)
+  }
 
   return (
     <PageCard>
@@ -48,15 +60,17 @@ export function BasicInfoPage() {
         <FeedbackMessage>{getErrorMessage(updateBasicInfoMutation.error)}</FeedbackMessage>
       )}
 
-      {resource && (
+      {draftResource && (
         <>
-          <PageHeader title="Basic Info" subtitle={resource.name} />
+          <PageHeader title="Basic Info" subtitle={draftResource.name} />
           <BasicInfoForm
-            key={resource.updatedAt}
-            basicInfo={resource.basicInfo}
-            disabled={formLocked}
+            key={draftResource.updatedAt}
+            basicInfo={draftResource.basicInfo}
+            disabled={false}
             isSubmitting={updateBasicInfoMutation.isPending}
-            onSubmit={(values) => updateBasicInfoMutation.mutateAsync(values)}
+            onSubmit={submitBasicInfo}
+            persistedBasicInfo={isCompleted ? resource?.basicInfo : undefined}
+            saveLabel={isCompleted ? 'Save draft changes' : undefined}
           />
         </>
       )}

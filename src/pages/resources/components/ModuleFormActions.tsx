@@ -9,6 +9,7 @@ interface ModuleFormActionsProps {
   isSubmitting: boolean
   onCancel: () => void
   onEdit: () => void
+  saveLabel?: string
 }
 
 export function ModuleFormActions({
@@ -19,13 +20,14 @@ export function ModuleFormActions({
   isSubmitting,
   onCancel,
   onEdit,
+  saveLabel = 'Save changes',
 }: ModuleFormActionsProps) {
   return (
     <Actions>
       {editing && (
         <>
           <Button type="submit" disabled={isSubmitting || disabled || !isDirty}>
-            {isSubmitting ? 'Saving...' : 'Save changes'}
+            {isSubmitting ? 'Saving...' : saveLabel}
           </Button>
           <Button
             type="button"

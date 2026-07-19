@@ -26,6 +26,14 @@ export const Term = styled.dt`
   font-size: 0.95rem;
 `
 
+export const TermRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
+`
+
 export const Description = styled.dd`
   margin: 0;
   color: ${({ theme }) => theme.colors.inkStrong};

@@ -1,40 +1,93 @@
-import type { Resource } from '@resources-api'
+import { Badge } from '@design-system/components/Badge'
+import type { BasicInfo, Resource } from '@resources-api'
 import {
   DefinitionList,
   Description,
   Section,
   SectionTitle,
   Term,
+  TermRow,
 } from './ResourceDetailsSections.styles'
 
-export function BasicInfoSection({ resource }: { resource: Resource }) {
+interface BasicInfoSectionProps {
+  draftBasicInfo?: BasicInfo
+  persistedResource?: Resource
+  resource: Resource
+}
+
+export function BasicInfoSection({
+  draftBasicInfo,
+  persistedResource,
+  resource,
+}: BasicInfoSectionProps) {
   return (
     <Section>
       <SectionTitle>Basic info</SectionTitle>
       <DefinitionList>
         <div>
-          <Term>Resource name</Term>
+          <FieldTerm
+            changed={hasChanged(draftBasicInfo, persistedResource, 'resourceName')}
+            label="Resource name"
+          />
           <Description>{getValue(resource.basicInfo.resourceName)}</Description>
         </div>
         <div>
-          <Term>Owner</Term>
+          <FieldTerm
+            changed={hasChanged(draftBasicInfo, persistedResource, 'owner')}
+            label="Owner"
+          />
           <Description>{getValue(resource.basicInfo.owner)}</Description>
         </div>
         <div>
-          <Term>Email</Term>
+          <FieldTerm
+            changed={hasChanged(draftBasicInfo, persistedResource, 'email')}
+            label="Email"
+          />
           <Description>{getValue(resource.basicInfo.email)}</Description>
         </div>
         <div>
-          <Term>Description</Term>
+          <FieldTerm
+            changed={hasChanged(draftBasicInfo, persistedResource, 'description')}
+            label="Description"
+          />
           <Description>{getValue(resource.basicInfo.description)}</Description>
         </div>
         <div>
-          <Term>Priority</Term>
+          <FieldTerm
+            changed={hasChanged(draftBasicInfo, persistedResource, 'priority')}
+            label="Priority"
+          />
           <Description>{getValue(resource.basicInfo.priority)}</Description>
         </div>
       </DefinitionList>
     </Section>
   )
+}
+
+interface FieldTermProps {
+  changed: boolean
+  label: string
+}
+
+function FieldTerm({ changed, label }: FieldTermProps) {
+  return (
+    <TermRow>
+      <Term>{label}</Term>
+      {changed ? <Badge variant="warning">Unsaved</Badge> : null}
+    </TermRow>
+  )
+}
+
+function hasChanged(
+  draftBasicInfo: BasicInfo | undefined,
+  persistedResource: Resource | undefined,
+  key: keyof BasicInfo,
+) {
+  if (!draftBasicInfo || !persistedResource) {
+    return false
+  }
+
+  return draftBasicInfo[key] !== persistedResource.basicInfo[key]
 }
 
 function getValue(value: string) {

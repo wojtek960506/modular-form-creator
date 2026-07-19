@@ -18,7 +18,9 @@ interface BasicInfoFormProps {
   basicInfo: BasicInfo
   disabled: boolean
   isSubmitting: boolean
-  onSubmit: (values: BasicInfoPayload) => Promise<Resource>
+  onSubmit: (values: BasicInfoPayload) => Promise<Resource | void>
+  persistedBasicInfo?: BasicInfo
+  saveLabel?: string
 }
 
 export function BasicInfoForm({
@@ -26,6 +28,8 @@ export function BasicInfoForm({
   disabled,
   isSubmitting,
   onSubmit,
+  persistedBasicInfo,
+  saveLabel,
 }: BasicInfoFormProps) {
   const [editing, setEditing] = useState(false)
   const form = useForm<BasicInfoFormValues, unknown, BasicInfoPayload>({
@@ -58,7 +62,11 @@ export function BasicInfoForm({
     <Card variant="outline">
       <FormProvider {...form}>
         <Form onSubmit={handleSubmit(submitForm)}>
-          <BasicInfoFields editing={editing} fieldsLocked={fieldsLocked} />
+          <BasicInfoFields
+            editing={editing}
+            fieldsLocked={fieldsLocked}
+            persistedBasicInfo={persistedBasicInfo}
+          />
 
           {!disabled && (
             <ModuleFormActions
@@ -69,6 +77,7 @@ export function BasicInfoForm({
               isSubmitting={isSubmitting}
               onCancel={cancelEditing}
               onEdit={() => setEditing(true)}
+              saveLabel={saveLabel}
             />
           )}
         </Form>

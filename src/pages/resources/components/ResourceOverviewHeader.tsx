@@ -2,7 +2,15 @@ import styled from 'styled-components'
 import { Badge } from '@design-system/components/Badge'
 import type { Resource } from '@resources-api'
 
-export function ResourceOverviewHeader({ resource }: { resource: Resource }) {
+interface ResourceOverviewHeaderProps {
+  hasUnsavedChanges?: boolean
+  resource: Resource
+}
+
+export function ResourceOverviewHeader({
+  hasUnsavedChanges = false,
+  resource,
+}: ResourceOverviewHeaderProps) {
   return (
     <Header>
       <Title>{resource.name}</Title>
@@ -10,6 +18,7 @@ export function ResourceOverviewHeader({ resource }: { resource: Resource }) {
         <Badge variant={resource.status === 'completed' ? 'success' : 'info'}>
           {resource.status}
         </Badge>
+        {hasUnsavedChanges ? <Badge variant="warning">Unsaved changes</Badge> : null}
       </HeaderMeta>
     </Header>
   )

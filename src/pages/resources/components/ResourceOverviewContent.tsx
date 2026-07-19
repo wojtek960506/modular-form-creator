@@ -11,28 +11,37 @@ import { ResourceOverviewHeader } from './ResourceOverviewHeader'
 import { ResourceProgressPanel } from './ResourceProgressPanel'
 
 interface ResourceOverviewContentProps {
+  hasBufferedChanges: boolean
   resource: Resource
   isCompleting: boolean
+  isUpdating: boolean
   onOpenBasicInfo: () => void
   onOpenProjectDetails: () => void
   onOpenDetails: () => void
   onCompleteResource: () => void
+  onUpdateResource: () => void
 }
 
 export function ResourceOverviewContent({
+  hasBufferedChanges,
   resource,
   isCompleting,
+  isUpdating,
   onOpenBasicInfo,
   onOpenProjectDetails,
   onOpenDetails,
   onCompleteResource,
+  onUpdateResource,
 }: ResourceOverviewContentProps) {
   const basicInfoComplete = isBasicInfoComplete(resource.basicInfo)
   const projectDetailsComplete = isProjectDetailsComplete(resource.projectDetails)
 
   return (
     <>
-      <ResourceOverviewHeader resource={resource} />
+      <ResourceOverviewHeader
+        resource={resource}
+        hasUnsavedChanges={hasBufferedChanges}
+      />
       <ResourceProgressPanel resource={resource} />
 
       <ModulesGrid>
@@ -70,14 +79,24 @@ export function ResourceOverviewContent({
         <Button type="button" variant="secondary" onClick={onOpenDetails}>
           View details
         </Button>
-        <Button
-          type="button"
-          state={canProvisionResource(resource) ? 'normal' : 'locked'}
-          disabled={isCompleting}
-          onClick={onCompleteResource}
-        >
-          {isCompleting ? 'Completing...' : 'Complete resource'}
-        </Button>
+        {resource.status === 'completed' ? (
+          <Button
+            type="button"
+            disabled={!hasBufferedChanges || isUpdating}
+            onClick={onUpdateResource}
+          >
+            {isUpdating ? 'Updating...' : 'Update resource'}
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            state={canProvisionResource(resource) ? 'normal' : 'locked'}
+            disabled={isCompleting}
+            onClick={onCompleteResource}
+          >
+            {isCompleting ? 'Completing...' : 'Complete resource'}
+          </Button>
+        )}
       </Actions>
     </>
   )
