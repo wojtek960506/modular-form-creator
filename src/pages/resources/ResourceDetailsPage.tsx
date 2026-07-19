@@ -12,9 +12,14 @@ import { useResourceDrafts } from './resource-drafts'
 export function ResourceDetailsPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
   const navigate = useNavigate()
-  const { getDraft, getDraftResource, hasDraftChanges } = useResourceDrafts()
+  const { getDraft, getDraftChangeCounts, getDraftResource } = useResourceDrafts()
 
   const resourceQuery = useResourceQuery(resourceId)
+  const resource = resourceQuery.data
+  const draftResource = resource ? getDraftResource(resource) : undefined
+  const draftChangeCounts = resource
+    ? getDraftChangeCounts(resource)
+    : { basicInfo: 0, projectDetails: 0, total: 0 }
 
   return (
     <PageCard>
@@ -22,30 +27,32 @@ export function ResourceDetailsPage() {
         Back to overview
       </BackButton>
 
-      {resourceQuery.isLoading ? <StateMessage>Loading resource...</StateMessage> : null}
+      {resourceQuery.isLoading && <StateMessage>Loading resource...</StateMessage>}
 
-      {resourceQuery.isError ? (
+      {resourceQuery.isError && (
         <FeedbackMessage>{getErrorMessage(resourceQuery.error)}</FeedbackMessage>
-      ) : null}
+      )}
 
-      {resourceQuery.data ? (
+      {resource && draftResource && (
         <>
           <ResourceDetailsHeader
-            resource={getDraftResource(resourceQuery.data)}
-            hasUnsavedChanges={hasDraftChanges(String(resourceQuery.data.resourceId))}
+            resource={draftResource}
+            unsavedChangesCount={draftChangeCounts.total}
           />
           <BasicInfoSection
-            draftBasicInfo={getDraft(String(resourceQuery.data.resourceId))?.basicInfo}
-            resource={getDraftResource(resourceQuery.data)}
-            persistedResource={resourceQuery.data}
+            draftBasicInfo={getDraft(String(resource.resourceId))?.basicInfo}
+            resource={draftResource}
+            persistedResource={resource}
+            unsavedChangesCount={draftChangeCounts.basicInfo}
           />
           <ProjectDetailsSection
-            draftProjectDetails={getDraft(String(resourceQuery.data.resourceId))?.projectDetails}
-            resource={getDraftResource(resourceQuery.data)}
-            persistedResource={resourceQuery.data}
+            draftProjectDetails={getDraft(String(resource.resourceId))?.projectDetails}
+            resource={draftResource}
+            persistedResource={resource}
+            unsavedChangesCount={draftChangeCounts.projectDetails}
           />
         </>
-      ) : null}
+      )}
     </PageCard>
   )
 }

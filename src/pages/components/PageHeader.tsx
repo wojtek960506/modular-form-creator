@@ -1,15 +1,20 @@
 import styled from 'styled-components'
+import type { ReactNode } from 'react'
 
 interface PageHeaderProps {
+  meta?: ReactNode
   title: string
   subtitle?: string
 }
 
-export function PageHeader({ title, subtitle }: PageHeaderProps) {
+export function PageHeader({ meta, title, subtitle }: PageHeaderProps) {
   return (
     <Header>
-      <Title>{title}</Title>
-      {subtitle ? <Subtitle>{subtitle}</Subtitle> : null}
+      <TitleRow>
+        <Title>{title}</Title>
+      </TitleRow>
+      {subtitle && <Subtitle>{subtitle}</Subtitle>}
+      {meta && <Meta>{meta}</Meta>}
     </Header>
   )
 }
@@ -21,6 +26,20 @@ const Header = styled.header`
 
 const Title = styled.h1`
   color: ${({ theme }) => theme.colors.inkStrong};
+`
+
+const TitleRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+`
+
+const Meta = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
 `
 
 const Subtitle = styled.p`

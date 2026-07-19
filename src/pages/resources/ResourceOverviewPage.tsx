@@ -14,7 +14,7 @@ import { useResourceDrafts } from './resource-drafts'
 export function ResourceOverviewPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
   const navigate = useNavigate()
-  const { clearDraft, getDraftResource, hasDraftChanges } = useResourceDrafts()
+  const { clearDraft, getDraftChangeCounts, getDraftResource } = useResourceDrafts()
 
   const resourceQuery = useResourceQuery(resourceId)
   const provisionResourceMutation = useProvisionResourceMutation()
@@ -26,7 +26,9 @@ export function ResourceOverviewPage() {
 
   const resource = resourceQuery.data
   const draftResource = resource ? getDraftResource(resource) : undefined
-  const hasBufferedChanges = resource ? hasDraftChanges(String(resource.resourceId)) : false
+  const draftChangeCounts = resource
+    ? getDraftChangeCounts(resource)
+    : { basicInfo: 0, projectDetails: 0, total: 0 }
 
   return (
     <PageCard>
@@ -34,28 +36,30 @@ export function ResourceOverviewPage() {
         Back to resources
       </BackButton>
 
-      {resourceQuery.isLoading ? <StateMessage>Loading resource...</StateMessage> : null}
+      {resourceQuery.isLoading && <StateMessage>Loading resource...</StateMessage>}
 
-      {resourceQuery.isError ? (
+      {resourceQuery.isError && (
         <FeedbackMessage>{getErrorMessage(resourceQuery.error)}</FeedbackMessage>
-      ) : null}
+      )}
 
-      {provisionResourceMutation.isError ? (
+      {provisionResourceMutation.isError && (
         <FeedbackMessage>
           {getErrorMessage(provisionResourceMutation.error)}
         </FeedbackMessage>
-      ) : null}
+      )}
 
-      {updateResourceMutation.isError ? (
+      {updateResourceMutation.isError && (
         <FeedbackMessage>
           {getErrorMessage(updateResourceMutation.error)}
         </FeedbackMessage>
-      ) : null}
+      )}
 
-      {draftResource ? (
+      {draftResource && (
         <ResourceOverviewContent
           resource={draftResource}
-          hasBufferedChanges={hasBufferedChanges}
+          unsavedChangesCount={draftChangeCounts.total}
+          basicInfoUnsavedChangesCount={draftChangeCounts.basicInfo}
+          projectDetailsUnsavedChangesCount={draftChangeCounts.projectDetails}
           isCompleting={provisionResourceMutation.isPending}
           isUpdating={updateResourceMutation.isPending}
           onOpenBasicInfo={() => navigate(`/resources/${draftResource.resourceId}/basic-info`)}
@@ -64,7 +68,7 @@ export function ResourceOverviewPage() {
           onCompleteResource={() => provisionResourceMutation.mutate(String(draftResource.resourceId))}
           onUpdateResource={() => updateResourceMutation.mutate(draftResource)}
         />
-      ) : null}
+      )}
     </PageCard>
   )
 }

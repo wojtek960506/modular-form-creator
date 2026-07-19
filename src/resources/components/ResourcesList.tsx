@@ -36,25 +36,25 @@ export function ResourcesList() {
     <Section>
       <SectionHeader>
         <SectionTitle>Current items</SectionTitle>
-        {resourcesQuery.data ? (
+        {resourcesQuery.data && (
           <SectionMeta>{resourcesQuery.data.pagination.totalItems} total</SectionMeta>
-        ) : null}
+        )}
       </SectionHeader>
 
-      {resourcesQuery.isError ? (
+      {resourcesQuery.isError && (
         <FeedbackMessage>{getErrorMessage(resourcesQuery.error)}</FeedbackMessage>
-      ) : null}
+      )}
 
-      {resourcesQuery.isLoading ? <StateMessage>Loading resources...</StateMessage> : null}
+      {resourcesQuery.isLoading && <StateMessage>Loading resources...</StateMessage>}
 
-      {emptyStateVisible ? (
+      {emptyStateVisible && (
         <EmptyState>
           <EmptyStateTitle>No resources yet</EmptyStateTitle>
           <EmptyStateText>Create your first resource to populate the list.</EmptyStateText>
         </EmptyState>
-      ) : null}
+      )}
 
-      {!resourcesQuery.isLoading && resources.length > 0 ? (
+      {!resourcesQuery.isLoading && resources.length > 0 && (
         <List>
           {resources.map((resource) => (
             <ResourcesListItem
@@ -65,7 +65,7 @@ export function ResourcesList() {
             />
           ))}
         </List>
-      ) : null}
+      )}
     </Section>
   )
 }

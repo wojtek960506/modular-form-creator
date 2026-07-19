@@ -47,9 +47,9 @@ export function CreateResourceForm() {
         </Button>
       </Form>
 
-      {createResourceMutation.isError ? (
+      {createResourceMutation.isError && (
         <FeedbackMessage>{getErrorMessage(createResourceMutation.error)}</FeedbackMessage>
-      ) : null}
+      )}
     </FormWrapper>
   )
 }

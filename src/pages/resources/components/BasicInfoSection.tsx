@@ -1,3 +1,4 @@
+import styled from 'styled-components'
 import { Badge } from '@design-system/components/Badge'
 import type { BasicInfo, Resource } from '@resources-api'
 import {
@@ -10,19 +11,26 @@ import {
 } from './ResourceDetailsSections.styles'
 
 interface BasicInfoSectionProps {
+  unsavedChangesCount?: number
   draftBasicInfo?: BasicInfo
   persistedResource?: Resource
   resource: Resource
 }
 
 export function BasicInfoSection({
+  unsavedChangesCount = 0,
   draftBasicInfo,
   persistedResource,
   resource,
 }: BasicInfoSectionProps) {
   return (
     <Section>
-      <SectionTitle>Basic info</SectionTitle>
+      <SectionHeader>
+        <SectionTitle>Basic info</SectionTitle>
+        {unsavedChangesCount > 0 && (
+          <Badge variant="warning">{unsavedChangesCount} unsaved changes</Badge>
+        )}
+      </SectionHeader>
       <DefinitionList>
         <div>
           <FieldTerm
@@ -64,6 +72,14 @@ export function BasicInfoSection({
   )
 }
 
+const SectionHeader = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
+`
+
 interface FieldTermProps {
   changed: boolean
   label: string
@@ -73,7 +89,7 @@ function FieldTerm({ changed, label }: FieldTermProps) {
   return (
     <TermRow>
       <Term>{label}</Term>
-      {changed ? <Badge variant="warning">Unsaved</Badge> : null}
+      {changed && <Badge variant="warning">Unsaved</Badge>}
     </TermRow>
   )
 }

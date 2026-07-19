@@ -9,6 +9,7 @@ interface ResourceModuleCardProps {
   status: 'complete' | 'incomplete'
   summary: string[]
   actionLabel: string
+  unsavedChangesCount?: number
   locked?: boolean
   onOpen: () => void
 }
@@ -19,6 +20,7 @@ export function ResourceModuleCard({
   status,
   summary,
   actionLabel,
+  unsavedChangesCount = 0,
   locked,
   onOpen,
 }: ResourceModuleCardProps) {
@@ -26,9 +28,14 @@ export function ResourceModuleCard({
     <Card variant="outline">
       <ModuleHeader>
         <ModuleTitle>{title}</ModuleTitle>
-        <Badge variant={status === 'complete' ? 'success' : 'neutral'}>
-          {status === 'complete' ? 'Complete' : 'Incomplete'}
-        </Badge>
+        <ModuleBadges>
+          <Badge variant={status === 'complete' ? 'success' : 'neutral'}>
+            {status === 'complete' ? 'Complete' : 'Incomplete'}
+          </Badge>
+          {unsavedChangesCount > 0 && (
+            <Badge variant="warning">{unsavedChangesCount} unsaved</Badge>
+          )}
+        </ModuleBadges>
       </ModuleHeader>
       <ModuleDescription>{description}</ModuleDescription>
       <SummaryList>
@@ -53,6 +60,13 @@ const ModuleHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.sm};
+`
+
+const ModuleBadges = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: ${({ theme }) => theme.spacing.xs};
 `
 
 const ModuleTitle = styled.h2`

@@ -3,12 +3,12 @@ import { Badge } from '@design-system/components/Badge'
 import type { Resource } from '@resources-api'
 
 interface ResourceDetailsHeaderProps {
-  hasUnsavedChanges?: boolean
+  unsavedChangesCount?: number
   resource: Resource
 }
 
 export function ResourceDetailsHeader({
-  hasUnsavedChanges = false,
+  unsavedChangesCount = 0,
   resource,
 }: ResourceDetailsHeaderProps) {
   return (
@@ -18,7 +18,9 @@ export function ResourceDetailsHeader({
         <Badge variant={resource.status === 'completed' ? 'success' : 'info'}>
           {resource.status}
         </Badge>
-        {hasUnsavedChanges ? <Badge variant="warning">Unsaved changes</Badge> : null}
+        {unsavedChangesCount > 0 && (
+          <Badge variant="warning">{unsavedChangesCount} unsaved changes</Badge>
+        )}
       </Meta>
     </Header>
   )
@@ -35,6 +37,7 @@ const Title = styled.h1`
 
 const Meta = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
   color: ${({ theme }) => theme.colors.inkMuted};

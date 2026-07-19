@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
+import { Badge } from '@design-system/components/Badge'
 import { Card } from '@design-system/components/Card'
 import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
@@ -15,13 +16,16 @@ import { useResourceDrafts } from './resource-drafts'
 export function ProjectDetailsPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
   const navigate = useNavigate()
-  const { getDraftResource, updateProjectDetailsDraft } = useResourceDrafts()
+  const { getDraftChangeCounts, getDraftResource, updateProjectDetailsDraft } = useResourceDrafts()
 
   const resourceQuery = useResourceQuery(resourceId)
   const updateProjectDetailsMutation = useUpdateProjectDetailsMutation(resourceId)
 
   const resource = resourceQuery.data
   const draftResource = resource ? getDraftResource(resource) : undefined
+  const draftChangeCounts = resource
+    ? getDraftChangeCounts(resource)
+    : { basicInfo: 0, projectDetails: 0, total: 0 }
   const isCompleted = resource?.status === 'completed'
   const locked = draftResource
     ? draftResource.status === 'draft' && !isBasicInfoComplete(draftResource.basicInfo)
@@ -42,19 +46,34 @@ export function ProjectDetailsPage() {
         Back to overview
       </BackButton>
 
-      {resourceQuery.isLoading ? <StateMessage>Loading Project Details...</StateMessage> : null}
+      {resourceQuery.isLoading && <StateMessage>Loading Project Details...</StateMessage>}
 
-      {resourceQuery.isError ? (
+      {resourceQuery.isError && (
         <FeedbackMessage>{getErrorMessage(resourceQuery.error)}</FeedbackMessage>
-      ) : null}
+      )}
 
-      {updateProjectDetailsMutation.isError ? (
+      {updateProjectDetailsMutation.isError && (
         <FeedbackMessage>{getErrorMessage(updateProjectDetailsMutation.error)}</FeedbackMessage>
-      ) : null}
+      )}
 
-      {draftResource ? (
+      {draftResource && (
         <>
-          <PageHeader title="Project Details" subtitle={draftResource.name} />
+          <PageHeader
+            title="Project Details"
+            subtitle={draftResource.name}
+            meta={
+              draftChangeCounts.total > 0 ? (
+                <>
+                  <Badge variant="warning">
+                    {draftChangeCounts.projectDetails} unsaved here
+                  </Badge>
+                  <Badge variant="warning">
+                    {draftChangeCounts.total} unsaved in total
+                  </Badge>
+                </>
+              ) : undefined
+            }
+          />
 
           {locked ? (
             <Card variant="outline">
@@ -79,7 +98,7 @@ export function ProjectDetailsPage() {
             />
           )}
         </>
-      ) : null}
+      )}
     </PageCard>
   )
 }

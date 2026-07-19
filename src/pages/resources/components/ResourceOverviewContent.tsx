@@ -11,7 +11,9 @@ import { ResourceOverviewHeader } from './ResourceOverviewHeader'
 import { ResourceProgressPanel } from './ResourceProgressPanel'
 
 interface ResourceOverviewContentProps {
-  hasBufferedChanges: boolean
+  unsavedChangesCount: number
+  basicInfoUnsavedChangesCount: number
+  projectDetailsUnsavedChangesCount: number
   resource: Resource
   isCompleting: boolean
   isUpdating: boolean
@@ -23,7 +25,9 @@ interface ResourceOverviewContentProps {
 }
 
 export function ResourceOverviewContent({
-  hasBufferedChanges,
+  unsavedChangesCount,
+  basicInfoUnsavedChangesCount,
+  projectDetailsUnsavedChangesCount,
   resource,
   isCompleting,
   isUpdating,
@@ -40,7 +44,7 @@ export function ResourceOverviewContent({
     <>
       <ResourceOverviewHeader
         resource={resource}
-        hasUnsavedChanges={hasBufferedChanges}
+        unsavedChangesCount={unsavedChangesCount}
       />
       <ResourceProgressPanel resource={resource} />
 
@@ -54,6 +58,7 @@ export function ResourceOverviewContent({
             `Priority: ${resource.basicInfo.priority || 'Not provided'}`,
           ]}
           actionLabel={basicInfoComplete ? 'Review Basic Info' : 'Open Basic Info'}
+          unsavedChangesCount={basicInfoUnsavedChangesCount}
           onOpen={onOpenBasicInfo}
         />
 
@@ -75,6 +80,7 @@ export function ResourceOverviewContent({
               : 'Complete Basic Info first'
           }
           locked={!basicInfoComplete}
+          unsavedChangesCount={projectDetailsUnsavedChangesCount}
           onOpen={onOpenProjectDetails}
         />
       </ModulesGrid>
@@ -86,7 +92,7 @@ export function ResourceOverviewContent({
         {resource.status === 'completed' ? (
           <Button
             type="button"
-            disabled={!hasBufferedChanges || isUpdating}
+            disabled={unsavedChangesCount === 0 || isUpdating}
             onClick={onUpdateResource}
           >
             {isUpdating ? 'Updating...' : 'Update resource'}
