@@ -59,7 +59,7 @@ export function ResourceOverviewContent({
             `Owner: ${resource.basicInfo.owner || 'Not provided'}`,
             `Priority: ${resource.basicInfo.priority || 'Not provided'}`,
           ]}
-          actionLabel={basicInfoComplete ? 'Review Basic Info' : 'Open Basic Info'}
+          actionLabel={basicInfoComplete ? 'Review Basic Info' : 'Set Basic Info'}
           unsavedChangesCount={basicInfoUnsavedChangesCount}
           onOpen={onOpenBasicInfo}
         />
@@ -78,7 +78,7 @@ export function ResourceOverviewContent({
           ]}
           actionLabel={
             basicInfoComplete
-              ? (projectDetailsComplete ? 'Review Project Details' : 'Open Project Details')
+              ? (projectDetailsComplete ? 'Review Project Details' : 'Set Project Details')
               : 'Complete Basic Info first'
           }
           locked={!basicInfoComplete}

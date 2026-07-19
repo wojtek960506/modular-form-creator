@@ -83,7 +83,7 @@ export function ProjectDetailsPage() {
                 type="button"
                 onClick={() => navigate(`/resources/${draftResource.resourceId}/basic-info`)}
               >
-                Open Basic Info
+                Set Basic Info
               </Button>
             </Card>
           ) : (
@@ -95,6 +95,7 @@ export function ProjectDetailsPage() {
               onSubmit={submitProjectDetails}
               persistedProjectDetails={isCompleted ? resource?.projectDetails : undefined}
               saveLabel={isCompleted ? 'Save draft changes' : 'Save changes'}
+              startInEditMode={!isCompleted}
             />
           )}
         </>

@@ -21,6 +21,7 @@ interface BasicInfoFormProps {
   onSubmit: (values: BasicInfoPayload) => Promise<Resource | void>
   persistedBasicInfo?: BasicInfo
   saveLabel: string
+  startInEditMode?: boolean
 }
 
 export function BasicInfoForm({
@@ -30,8 +31,9 @@ export function BasicInfoForm({
   onSubmit,
   persistedBasicInfo,
   saveLabel,
+  startInEditMode = true,
 }: BasicInfoFormProps) {
-  const [editing, setEditing] = useState(false)
+  const [editing, setEditing] = useState(startInEditMode)
   const form = useForm<BasicInfoFormValues, unknown, BasicInfoPayload>({
     resolver: zodResolver(basicInfoSchema),
     defaultValues: toBasicInfoFormValues(basicInfo),

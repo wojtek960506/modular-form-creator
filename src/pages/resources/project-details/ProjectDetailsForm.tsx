@@ -21,6 +21,7 @@ interface ProjectDetailsFormProps {
   persistedProjectDetails?: ProjectDetails
   projectDetails: ProjectDetails
   saveLabel: string
+  startInEditMode?: boolean
 }
 
 export function ProjectDetailsForm({
@@ -30,8 +31,9 @@ export function ProjectDetailsForm({
   persistedProjectDetails,
   projectDetails,
   saveLabel,
+  startInEditMode = true,
 }: ProjectDetailsFormProps) {
-  const [editing, setEditing] = useState(false)
+  const [editing, setEditing] = useState(startInEditMode)
   const form = useForm<ProjectDetailsFormValues, unknown, ProjectDetailsPayload>({
     resolver: zodResolver(projectDetailsSchema),
     defaultValues: toProjectDetailsFormValues(projectDetails),
