@@ -1,4 +1,5 @@
 export { BackButton } from './BackButton'
+export { ConfirmDialog } from './ConfirmDialog'
 export { PageCard } from './PageCard'
 export { PageHeader } from './PageHeader'
 export { ReadonlyField } from './ReadonlyField'

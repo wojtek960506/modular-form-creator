@@ -1,4 +1,7 @@
+export { ResourceOverviewActions } from './ResourceOverviewActions'
 export { ResourceModuleCard } from './ResourceModuleCard'
 export { ResourceOverviewContent } from './ResourceOverviewContent'
 export { ResourceOverviewHeader } from './ResourceOverviewHeader'
+export { ResourceOverviewModules } from './ResourceOverviewModules'
+export { ResourceOverviewPageContent } from './ResourceOverviewPageContent'
 export { ResourceProgressPanel } from './ResourceProgressPanel'

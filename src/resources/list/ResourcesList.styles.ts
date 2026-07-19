@@ -92,6 +92,7 @@ export const ResourceName = styled.p`
 export const EmptyState = styled.div`
   display: grid;
   gap: ${({ theme }) => theme.spacing.xs};
+  align-self: start;
   padding: ${({ theme }) => theme.spacing.lg};
   border: 1px dashed ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radii.md};

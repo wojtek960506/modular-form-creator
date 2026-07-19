@@ -1,109 +1,84 @@
-import styled from 'styled-components'
-import { Badge } from '@design-system/components/Badge'
-import type { ProjectDetails, Resource } from '@resources/api'
+import type { ProjectDetails } from '@resources/api'
+import { useResource } from '@resources/resource'
 import {
   DefinitionList,
   Description,
   Section,
-  SectionTitle,
-  Term,
-  TermRow,
 } from '@resources/resource-details/ResourceDetailsSections.styles'
-import { formatFieldValue, formatUnsavedChangesLabel } from '@resources/shared'
+import {
+  ResourceDetailsFieldTerm,
+  ResourceDetailsSectionHeader,
+} from '@resources/resource-details'
+import {
+  areSameOptions,
+  formatFieldValue,
+  formatOptionsValue,
+  formatUnsavedChangesLabel,
+} from '@resources/shared'
+import { formatCategoryLabel } from './formatCategoryLabel'
 
-interface ProjectDetailsSectionProps {
-  unsavedChangesCount?: number
-  draftProjectDetails?: ProjectDetails
-  persistedResource?: Resource
-  resource: Resource
-}
+export function ProjectDetailsSection() {
+  const { draft, draftChangeCounts, draftResource, resource } = useResource()
 
-export function ProjectDetailsSection({
-  unsavedChangesCount = 0,
-  draftProjectDetails,
-  persistedResource,
-  resource,
-}: ProjectDetailsSectionProps) {
+  if (!draftResource || !resource) return null
+
+  const draftProjectDetails = draft?.projectDetails
+  const unsavedChangesCount = draftChangeCounts.projectDetails
+
   return (
     <Section>
-      <SectionHeader>
-        <SectionTitle>Project details</SectionTitle>
-        {unsavedChangesCount > 0 && (
-          <Badge variant="warning">{formatUnsavedChangesLabel(unsavedChangesCount)}</Badge>
-        )}
-      </SectionHeader>
+      <ResourceDetailsSectionHeader
+        title="Project details"
+        unsavedChangesLabel={
+          unsavedChangesCount > 0 ? formatUnsavedChangesLabel(unsavedChangesCount) : undefined
+        }
+      />
       <DefinitionList>
         <div>
-          <FieldTerm
-            changed={hasChanged(draftProjectDetails, persistedResource, 'projectName')}
+          <ResourceDetailsFieldTerm
+            changed={hasChanged(draftProjectDetails, resource.projectDetails, 'projectName')}
             label="Project name"
           />
-          <Description>{formatFieldValue(resource.projectDetails.projectName)}</Description>
+          <Description>{formatFieldValue(draftResource.projectDetails.projectName)}</Description>
         </div>
         <div>
-          <FieldTerm
-            changed={hasChanged(draftProjectDetails, persistedResource, 'budget')}
+          <ResourceDetailsFieldTerm
+            changed={hasChanged(draftProjectDetails, resource.projectDetails, 'budget')}
             label="Budget"
           />
-          <Description>{formatFieldValue(resource.projectDetails.budget)}</Description>
+          <Description>{formatFieldValue(draftResource.projectDetails.budget)}</Description>
         </div>
         <div>
-          <FieldTerm
-            changed={hasChanged(draftProjectDetails, persistedResource, 'category')}
+          <ResourceDetailsFieldTerm
+            changed={hasChanged(draftProjectDetails, resource.projectDetails, 'category')}
             label="Category"
           />
-          <Description>{formatFieldValue(resource.projectDetails.category)}</Description>
+          <Description>{formatCategoryLabel(draftResource.projectDetails.category)}</Description>
         </div>
         <div>
-          <FieldTerm
-            changed={hasChanged(draftProjectDetails, persistedResource, 'options')}
+          <ResourceDetailsFieldTerm
+            changed={hasChanged(draftProjectDetails, resource.projectDetails, 'options')}
             label="Options"
           />
-          <Description>{getOptionsValue(resource.projectDetails.options)}</Description>
+          <Description>{formatOptionsValue(draftResource.projectDetails.options)}</Description>
         </div>
       </DefinitionList>
     </Section>
   )
 }
 
-const SectionHeader = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.xs};
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
-`
-
-interface FieldTermProps {
-  changed: boolean
-  label: string
-}
-
-function FieldTerm({ changed, label }: FieldTermProps) {
-  return (
-    <TermRow>
-      <Term>{label}</Term>
-      {changed && <Badge variant="warning">Unsaved</Badge>}
-    </TermRow>
-  )
-}
-
 function hasChanged(
   draftProjectDetails: ProjectDetails | undefined,
-  persistedResource: Resource | undefined,
+  persistedProjectDetails: ProjectDetails,
   key: keyof ProjectDetails,
 ) {
-  if (!draftProjectDetails || !persistedResource) {
+  if (!draftProjectDetails) {
     return false
   }
 
   if (key === 'options') {
-    return draftProjectDetails.options.join('\u0000') !== persistedResource.projectDetails.options.join('\u0000')
+    return !areSameOptions(draftProjectDetails.options, persistedProjectDetails.options)
   }
 
-  return draftProjectDetails[key] !== persistedResource.projectDetails[key]
-}
-
-function getOptionsValue(values: string[]) {
-  return values.length > 0 ? values.join(', ') : 'Not provided'
+  return draftProjectDetails[key] !== persistedProjectDetails[key]
 }

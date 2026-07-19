@@ -1,18 +1,17 @@
 import styled from 'styled-components'
 import { Badge } from '@design-system/components/Badge'
-import type { Resource } from '@resources/api'
 import { formatResourceStatusLabel } from '@resources/formatResourceStatusLabel'
+import { useResource } from '@resources/resource'
 import { formatUnsavedChangesLabel } from '@resources/shared'
 
-interface ResourceDetailsHeaderProps {
-  unsavedChangesCount?: number
-  resource: Resource
-}
+export function ResourceDetailsHeader() {
+  const { draftChangeCounts, draftResource } = useResource()
 
-export function ResourceDetailsHeader({
-  unsavedChangesCount = 0,
-  resource,
-}: ResourceDetailsHeaderProps) {
+  if (!draftResource) return null
+
+  const resource = draftResource
+  const unsavedChangesCount = draftChangeCounts.total
+
   return (
     <Header>
       <Title>{resource.name}</Title>
