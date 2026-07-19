@@ -1,9 +1,15 @@
 import styled from 'styled-components'
+import { Button } from '@design-system/components/Button'
 import { Card } from '@design-system/components/Card'
 import type { Resource } from '@resources-api'
 import { getCompletedModulesCount } from '@resources/resourceCompletion'
 
-export function ResourceProgressPanel({ resource }: { resource: Resource }) {
+interface ResourceProgressPanelProps {
+  onOpenDetails: () => void
+  resource: Resource
+}
+
+export function ResourceProgressPanel({ onOpenDetails, resource }: ResourceProgressPanelProps) {
   const completedModulesCount = getCompletedModulesCount(resource)
 
   return (
@@ -15,6 +21,14 @@ export function ResourceProgressPanel({ resource }: { resource: Resource }) {
       <ProgressTrack aria-label={`${completedModulesCount} of 2 modules completed`}>
         <ProgressFill $completedModulesCount={completedModulesCount} />
       </ProgressTrack>
+      <Button
+        type="button"
+        variant="secondary"
+        fullWidth
+        onClick={onOpenDetails}
+      >
+        View details
+      </Button>
     </Card>
   )
 }

@@ -21,6 +21,7 @@ interface ResourceOverviewContentProps {
   onOpenProjectDetails: () => void
   onOpenDetails: () => void
   onCompleteResource: () => void
+  onDiscardChanges: () => void
   onUpdateResource: () => void
 }
 
@@ -35,6 +36,7 @@ export function ResourceOverviewContent({
   onOpenProjectDetails,
   onOpenDetails,
   onCompleteResource,
+  onDiscardChanges,
   onUpdateResource,
 }: ResourceOverviewContentProps) {
   const basicInfoComplete = isBasicInfoComplete(resource.basicInfo)
@@ -46,7 +48,7 @@ export function ResourceOverviewContent({
         resource={resource}
         unsavedChangesCount={unsavedChangesCount}
       />
-      <ResourceProgressPanel resource={resource} />
+      <ResourceProgressPanel resource={resource} onOpenDetails={onOpenDetails} />
 
       <ModulesGrid>
         <ResourceModuleCard
@@ -86,17 +88,24 @@ export function ResourceOverviewContent({
       </ModulesGrid>
 
       <Actions>
-        <Button type="button" variant="secondary" onClick={onOpenDetails}>
-          View details
-        </Button>
         {resource.status === 'completed' ? (
-          <Button
-            type="button"
-            disabled={unsavedChangesCount === 0 || isUpdating}
-            onClick={onUpdateResource}
-          >
-            {isUpdating ? 'Updating...' : 'Update resource'}
-          </Button>
+          <>
+            <Button
+              type="button"
+              disabled={unsavedChangesCount === 0 || isUpdating}
+              onClick={onUpdateResource}
+            >
+              {isUpdating ? 'Updating...' : 'Update resource'}
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              disabled={unsavedChangesCount === 0 || isUpdating}
+              onClick={onDiscardChanges}
+            >
+              Discard changes
+            </Button>
+          </>
         ) : (
           <Button
             type="button"

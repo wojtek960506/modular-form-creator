@@ -66,6 +66,7 @@ export function ResourceOverviewPage() {
           onOpenProjectDetails={() => navigate(`/resources/${draftResource.resourceId}/project-details`)}
           onOpenDetails={() => navigate(`/resources/${draftResource.resourceId}/details`)}
           onCompleteResource={() => provisionResourceMutation.mutate(String(draftResource.resourceId))}
+          onDiscardChanges={() => clearDraft(String(draftResource.resourceId))}
           onUpdateResource={() => updateResourceMutation.mutate(draftResource)}
         />
       )}
