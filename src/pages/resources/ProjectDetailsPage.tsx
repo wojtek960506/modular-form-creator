@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
@@ -9,10 +9,10 @@ import { PageHeader } from '@pages/components/PageHeader'
 import { FeedbackMessage, StateMessage } from '@pages/components/messages'
 import {
   getErrorMessage,
-  getResource,
   resourceQueryKey,
   updateProjectDetails,
 } from '@resources-api'
+import { useResourceQuery } from '@resources/queries/useResourceQuery'
 import { isBasicInfoComplete } from '@resources/resourceCompletion'
 import { ProjectDetailsForm, type ProjectDetailsPayload } from './project-details'
 import { useResourceDrafts } from './resource-drafts'
@@ -23,11 +23,7 @@ export function ProjectDetailsPage() {
   const queryClient = useQueryClient()
   const { getDraftResource, updateProjectDetailsDraft } = useResourceDrafts()
 
-  const resourceQuery = useQuery({
-    queryKey: resourceQueryKey(resourceId ?? ''),
-    queryFn: () => getResource(resourceId ?? ''),
-    enabled: Boolean(resourceId),
-  })
+  const resourceQuery = useResourceQuery(resourceId)
   const updateProjectDetailsMutation = useMutation({
     mutationFn: (values: ProjectDetailsPayload) => updateProjectDetails(resourceId ?? '', values),
     onSuccess: async (resource) => {

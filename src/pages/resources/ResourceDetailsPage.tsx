@@ -1,9 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
 import { FeedbackMessage, StateMessage } from '@pages/components/messages'
-import { getErrorMessage, getResource, resourceQueryKey } from '@resources-api'
+import { getErrorMessage } from '@resources-api'
+import { useResourceQuery } from '@resources/queries/useResourceQuery'
 import { BasicInfoSection } from './components/BasicInfoSection'
 import { ProjectDetailsSection } from './components/ProjectDetailsSection'
 import { ResourceDetailsHeader } from './components/ResourceDetailsHeader'
@@ -14,11 +14,7 @@ export function ResourceDetailsPage() {
   const navigate = useNavigate()
   const { getDraft, getDraftResource, hasDraftChanges } = useResourceDrafts()
 
-  const resourceQuery = useQuery({
-    queryKey: resourceQueryKey(resourceId ?? ''),
-    queryFn: () => getResource(resourceId ?? ''),
-    enabled: Boolean(resourceId),
-  })
+  const resourceQuery = useResourceQuery(resourceId)
 
   return (
     <PageCard>

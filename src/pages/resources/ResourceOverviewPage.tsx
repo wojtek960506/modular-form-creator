@@ -1,15 +1,15 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
 import { FeedbackMessage, StateMessage } from '@pages/components/messages'
 import {
   getErrorMessage,
-  getResource,
   provisionResource,
   replaceResource,
   resourceQueryKey,
 } from '@resources-api'
+import { useResourceQuery } from '@resources/queries/useResourceQuery'
 import { ResourceOverviewContent } from './components/ResourceOverviewContent'
 import { useResourceDrafts } from './resource-drafts'
 
@@ -19,11 +19,7 @@ export function ResourceOverviewPage() {
   const queryClient = useQueryClient()
   const { clearDraft, getDraftResource, hasDraftChanges } = useResourceDrafts()
 
-  const resourceQuery = useQuery({
-    queryKey: resourceQueryKey(resourceId ?? ''),
-    queryFn: () => getResource(resourceId ?? ''),
-    enabled: Boolean(resourceId),
-  })
+  const resourceQuery = useResourceQuery(resourceId)
 
   const provisionResourceMutation = useMutation({
     mutationFn: provisionResource,
