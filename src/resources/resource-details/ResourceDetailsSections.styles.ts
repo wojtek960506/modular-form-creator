@@ -38,4 +38,6 @@ export const Description = styled.dd`
   margin: 0;
   color: ${({ theme }) => theme.colors.inkStrong};
   font-weight: 600;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 `

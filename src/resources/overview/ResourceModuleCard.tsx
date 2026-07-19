@@ -76,6 +76,8 @@ const ModuleTitle = styled.h2`
 
 const ModuleDescription = styled.p`
   color: ${({ theme }) => theme.colors.inkMuted};
+  overflow-wrap: anywhere;
+  word-break: break-word;
 `
 
 const SummaryList = styled.ul`
@@ -84,4 +86,9 @@ const SummaryList = styled.ul`
   margin: 0;
   padding-left: ${({ theme }) => theme.spacing.lg};
   color: ${({ theme }) => theme.colors.inkMuted};
+
+  li {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
 `

@@ -1,8 +1,8 @@
-import styled from 'styled-components'
 import { Badge } from '@design-system/components/Badge'
 import { formatResourceStatusLabel } from '@resources/formatResourceStatusLabel'
 import { useResource } from '@resources/resource'
 import { formatUnsavedChangesLabel } from '@resources/shared'
+import { Header, HeaderMeta, HeaderTitle } from '@shared/ui/PageHeader.styles'
 
 export function ResourceDetailsHeader() {
   const { draftChangeCounts, draftResource } = useResource()
@@ -14,32 +14,15 @@ export function ResourceDetailsHeader() {
 
   return (
     <Header>
-      <Title>{resource.name}</Title>
-      <Meta>
+      <HeaderTitle>{resource.name}</HeaderTitle>
+      <HeaderMeta>
         <Badge variant={resource.status === 'completed' ? 'success' : 'info'}>
           {formatResourceStatusLabel(resource.status)}
         </Badge>
         {unsavedChangesCount > 0 && (
           <Badge variant="warning">{formatUnsavedChangesLabel(unsavedChangesCount)}</Badge>
         )}
-      </Meta>
+      </HeaderMeta>
     </Header>
   )
 }
-
-const Header = styled.header`
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.sm};
-`
-
-const Title = styled.h1`
-  color: ${({ theme }) => theme.colors.inkStrong};
-`
-
-const Meta = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  color: ${({ theme }) => theme.colors.inkMuted};
-`
