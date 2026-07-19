@@ -1,10 +1,7 @@
 import { useState } from 'react'
 import { getErrorMessage } from '@resources/api'
 import { useDeleteResourceMutation, useResourcesQuery } from '@resources/queries'
-import {
-  FeedbackMessage,
-  StateMessage,
-} from '@pages/components/messages'
+import { FeedbackMessage, StateMessage } from '@shared/ui'
 import {
   EmptyState,
   EmptyStateText,

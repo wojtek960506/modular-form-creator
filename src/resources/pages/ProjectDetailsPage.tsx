@@ -3,15 +3,12 @@ import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
 import { Badge } from '@design-system/components/Badge'
 import { Card } from '@design-system/components/Card'
-import { BackButton } from '@pages/components/BackButton'
-import { PageCard } from '@pages/components/PageCard'
-import { PageHeader } from '@pages/components/PageHeader'
-import { FeedbackMessage, StateMessage } from '@pages/components/messages'
 import { getErrorMessage } from '@resources/api'
 import { ProjectDetailsForm, type ProjectDetailsPayload } from '@resources/project-details'
 import { useResourceQuery, useUpdateProjectDetailsMutation } from '@resources/queries'
 import { isBasicInfoComplete } from '@resources/resourceCompletion'
 import { useResourceDrafts } from '@resources/resource-drafts'
+import { BackButton, FeedbackMessage, PageCard, PageHeader, StateMessage } from '@shared/ui'
 
 export function ProjectDetailsPage() {
   const { resourceId } = useParams<{ resourceId: string }>()

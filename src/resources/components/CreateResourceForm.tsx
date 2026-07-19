@@ -2,9 +2,9 @@ import { useState, type FormEvent } from 'react'
 import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
 import { Input } from '@design-system/components/Input'
-import { FeedbackMessage } from '@pages/components/messages'
 import { getErrorMessage } from '@resources/api'
 import { useCreateResourceMutation } from '@resources/queries'
+import { FeedbackMessage } from '@shared/ui'
 
 export function CreateResourceForm() {
   const [resourceName, setResourceName] = useState('')

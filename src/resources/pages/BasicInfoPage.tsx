@@ -1,13 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { BackButton } from '@pages/components/BackButton'
-import { PageCard } from '@pages/components/PageCard'
-import { PageHeader } from '@pages/components/PageHeader'
-import { FeedbackMessage, StateMessage } from '@pages/components/messages'
 import { Badge } from '@design-system/components/Badge'
 import { getErrorMessage } from '@resources/api'
 import { BasicInfoForm, type BasicInfoPayload } from '@resources/basic-info'
 import { useResourceQuery, useUpdateBasicInfoMutation } from '@resources/queries'
 import { useResourceDrafts } from '@resources/resource-drafts'
+import { BackButton, FeedbackMessage, PageCard, PageHeader, StateMessage } from '@shared/ui'
 
 export function BasicInfoPage() {
   const { resourceId } = useParams<{ resourceId: string }>()

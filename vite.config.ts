@@ -16,7 +16,8 @@ export default defineConfig({
     alias: {
       '@design-system': path.resolve(dirname, 'src/design-system'),
       '@pages': path.resolve(dirname, 'src/pages'),
-      '@resources': path.resolve(dirname, 'src/resources')
+      '@resources': path.resolve(dirname, 'src/resources'),
+      '@shared': path.resolve(dirname, 'src/shared')
     }
   },
   test: {

@@ -1,7 +1,4 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { BackButton } from '@pages/components/BackButton'
-import { PageCard } from '@pages/components/PageCard'
-import { FeedbackMessage, StateMessage } from '@pages/components/messages'
 import { getErrorMessage } from '@resources/api'
 import { ResourceOverviewContent } from '@resources/components/ResourceOverviewContent'
 import {
@@ -10,6 +7,7 @@ import {
   useResourceQuery,
 } from '@resources/queries'
 import { useResourceDrafts } from '@resources/resource-drafts'
+import { BackButton, FeedbackMessage, PageCard, StateMessage } from '@shared/ui'
 
 export function ResourceOverviewPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
