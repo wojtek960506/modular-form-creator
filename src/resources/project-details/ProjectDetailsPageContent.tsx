@@ -1,24 +1,16 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
 import { Badge } from '@design-system/components/Badge'
-import { Button } from '@design-system/components/Button'
-import { Card } from '@design-system/components/Card'
 import { getErrorMessage } from '@resources/api'
 import { useUpdateProjectDetailsMutation } from '@resources/queries'
 import { useResource } from '@resources/resource'
 import { isBasicInfoComplete, isProjectDetailsComplete } from '@resources/resourceCompletion'
 import { BackButton, FeedbackMessage, PageCard, PageHeader, StateMessage } from '@shared/ui'
+import { LockedProjectDetailsCard } from './LockedProjectDetailsCard'
 import { ProjectDetailsForm } from './ProjectDetailsForm'
 import type { ProjectDetailsPayload } from './projectDetailsForm.types'
 
-const LockedTitle = styled.h2`
-  color: ${({ theme }) => theme.colors.inkStrong};
-  font-size: 1.125rem;
-`
-
 export function ProjectDetailsPageContent() {
   const { resourceId } = useParams<{ resourceId: string }>()
-  const navigate = useNavigate()
   const {
     draftChangeCounts,
     draftResource,
@@ -43,9 +35,7 @@ export function ProjectDetailsPageContent() {
 
   return (
     <PageCard>
-      <BackButton onClick={() => navigate(`/resources/${resourceId}`)}>
-        Back to overview
-      </BackButton>
+      <BackButton resourceId={resourceId} />
 
       {resourceQuery.isLoading && <StateMessage>Loading Project Details...</StateMessage>}
 
@@ -77,16 +67,7 @@ export function ProjectDetailsPageContent() {
           />
 
           {locked ? (
-            <Card variant="outline">
-              <LockedTitle>Project Details are locked</LockedTitle>
-              <StateMessage>Complete Basic Info before opening this module.</StateMessage>
-              <Button
-                type="button"
-                onClick={() => navigate(`/resources/${draftResource.resourceId}/basic-info`)}
-              >
-                Set Basic Info
-              </Button>
-            </Card>
+            <LockedProjectDetailsCard />
           ) : (
             <ProjectDetailsForm
               key={draftResource.updatedAt}

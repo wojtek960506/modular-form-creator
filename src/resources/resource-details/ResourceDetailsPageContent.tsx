@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getErrorMessage } from '@resources/api'
 import { BasicInfoSection } from '@resources/basic-info'
 import { ProjectDetailsSection } from '@resources/project-details'
@@ -8,14 +8,11 @@ import { ResourceDetailsHeader } from './ResourceDetailsHeader'
 
 export function ResourceDetailsPageContent() {
   const { resourceId } = useParams<{ resourceId: string }>()
-  const navigate = useNavigate()
   const { draft, draftChangeCounts, draftResource, resource, resourceQuery } = useResource()
 
   return (
     <PageCard>
-      <BackButton onClick={() => navigate(`/resources/${resourceId}`)}>
-        Back to overview
-      </BackButton>
+      <BackButton resourceId={resourceId} />
 
       {resourceQuery.isLoading && <StateMessage>Loading resource...</StateMessage>}
 

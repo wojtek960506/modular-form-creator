@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Badge } from '@design-system/components/Badge'
 import { getErrorMessage } from '@resources/api'
 import { useUpdateBasicInfoMutation } from '@resources/queries'
@@ -10,7 +10,6 @@ import type { BasicInfoPayload } from './basicInfoForm.types'
 
 export function BasicInfoPageContent() {
   const { resourceId } = useParams<{ resourceId: string }>()
-  const navigate = useNavigate()
   const {
     draftChangeCounts,
     draftResource,
@@ -32,9 +31,7 @@ export function BasicInfoPageContent() {
 
   return (
     <PageCard>
-      <BackButton onClick={() => navigate(`/resources/${resourceId}`)}>
-        Back to overview
-      </BackButton>
+      <BackButton resourceId={resourceId} />
 
       {resourceQuery.isLoading && <StateMessage>Loading Basic Info...</StateMessage>}
 

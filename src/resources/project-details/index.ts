@@ -1,4 +1,5 @@
 export { ProjectDetailsForm } from './ProjectDetailsForm'
+export { LockedProjectDetailsCard } from './LockedProjectDetailsCard'
 export { ProjectDetailsPageContent } from './ProjectDetailsPageContent'
 export { ProjectDetailsSection } from './ProjectDetailsSection'
 export type { ProjectDetailsPayload } from './projectDetailsForm.types'

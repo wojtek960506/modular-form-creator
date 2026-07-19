@@ -17,9 +17,7 @@ export function ResourceOverviewPageContent() {
 
   return (
     <PageCard>
-      <BackButton onClick={() => navigate('/resources')}>
-        Back to resources
-      </BackButton>
+      <BackButton />
 
       {resourceQuery.isLoading && <StateMessage>Loading resource...</StateMessage>}
 
