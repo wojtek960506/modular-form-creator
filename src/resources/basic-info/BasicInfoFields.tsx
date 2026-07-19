@@ -8,6 +8,7 @@ import {
   hasUnsavedChange,
 } from '../components/draftFieldHelpers'
 import { UnsavedField } from '../components/UnsavedField'
+import { formatPriorityLabel } from './formatPriorityLabel'
 import { priorityOptions, type BasicInfoFormValues } from './basicInfoForm.types'
 
 interface BasicInfoFieldsProps {
@@ -25,10 +26,6 @@ export function BasicInfoFields({
     control,
     formState: { errors },
   } = useFormContext<BasicInfoFormValues>()
-
-  function getPriorityLabel(value: string) {
-    return priorityOptions.find((option) => option.value === value)?.label ?? value
-  }
 
   return (
     <>
@@ -117,7 +114,7 @@ export function BasicInfoFields({
                   editing,
                   field.value,
                   persistedBasicInfo?.priority,
-                  getPriorityLabel,
+                  formatPriorityLabel,
                 )
               }
               error={errors.priority?.message}

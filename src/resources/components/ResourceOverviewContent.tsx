@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
 import type { Resource } from '@resources/api'
+import { formatPriorityLabel } from '@resources/basic-info/formatPriorityLabel'
 import {
   canProvisionResource,
   isBasicInfoComplete,
@@ -57,7 +58,11 @@ export function ResourceOverviewContent({
           status={basicInfoComplete ? 'complete' : 'incomplete'}
           summary={[
             `Owner: ${resource.basicInfo.owner || 'Not provided'}`,
-            `Priority: ${resource.basicInfo.priority || 'Not provided'}`,
+            `Priority: ${
+              resource.basicInfo.priority
+                ? formatPriorityLabel(resource.basicInfo.priority)
+                : 'Not provided'
+            }`,
           ]}
           actionLabel={basicInfoComplete ? 'Review Basic Info' : 'Set Basic Info'}
           unsavedChangesCount={basicInfoUnsavedChangesCount}
