@@ -25,15 +25,19 @@ function App() {
 }
 
 const AppShell = styled.div`
-  min-height: 100vh;
+  
   display: flex;
+  width: 100%;
+  box-sizing: border-box;
   padding: ${({ theme }) => theme.spacing.xl};
-  justify-content: center;
-
-  @media (min-height: 700px) {
-    align-items: stretch;
-    overflow: hidden;
-  }
+  min-width: 24rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-x: auto;
+  overflow-y: auto;
 `
 
 export default App
+
+
+// height: 100dvh;

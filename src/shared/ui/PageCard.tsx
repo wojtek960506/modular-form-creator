@@ -6,6 +6,7 @@ interface PageCardProps {
 
 export const PageCard = styled.div<PageCardProps>`
   width: min(100%, 720px);
+  min-width: 18rem;
   display: grid;
   gap: ${({ theme }) => theme.spacing.lg};
   padding: ${({ theme }) => theme.spacing.xl};

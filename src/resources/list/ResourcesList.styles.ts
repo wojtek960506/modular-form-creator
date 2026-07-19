@@ -87,6 +87,8 @@ export const DeleteButton = styled(Button)`
 export const ResourceName = styled.p`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.inkStrong};
+  overflow-wrap: anywhere;
+  word-break: break-word;
 `
 
 export const EmptyState = styled.div`
