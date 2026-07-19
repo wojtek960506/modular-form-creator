@@ -2,7 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { CheckboxGroup } from '@design-system/components/CheckboxGroup'
 import { Input } from '@design-system/components/Input'
 import { Select } from '@design-system/components/Select'
-import type { ProjectDetails } from '@resources-api'
+import type { ProjectDetails } from '@resources/api'
 import {
   getModifiedHelperText,
   getUnsavedHelperText,

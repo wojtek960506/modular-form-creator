@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { updateProjectDetails, type ProjectDetails } from '@resources-api'
+import { updateProjectDetails, type ProjectDetails } from '@resources/api'
 import { setResourceQueryData } from './queryClientHelpers'
 
 export function useUpdateProjectDetailsMutation(resourceId: string | undefined) {

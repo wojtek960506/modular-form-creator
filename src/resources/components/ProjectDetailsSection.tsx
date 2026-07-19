@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Badge } from '@design-system/components/Badge'
-import type { ProjectDetails, Resource } from '@resources-api'
+import type { ProjectDetails, Resource } from '@resources/api'
 import { formatFieldValue } from './formatFieldValue'
 import { formatUnsavedChangesLabel } from './formatUnsavedChangesLabel'
 import {

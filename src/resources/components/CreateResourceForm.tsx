@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
 import { Input } from '@design-system/components/Input'
 import { FeedbackMessage } from '@pages/components/messages'
-import { getErrorMessage } from '@resources-api'
+import { getErrorMessage } from '@resources/api'
 import { useCreateResourceMutation } from '@resources/queries'
 
 export function CreateResourceForm() {

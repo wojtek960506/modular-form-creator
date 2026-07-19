@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
 import { FeedbackMessage, StateMessage } from '@pages/components/messages'
-import { getErrorMessage } from '@resources-api'
+import { getErrorMessage } from '@resources/api'
 import { ResourceOverviewContent } from '@resources/components/ResourceOverviewContent'
 import {
   useProvisionResourceMutation,

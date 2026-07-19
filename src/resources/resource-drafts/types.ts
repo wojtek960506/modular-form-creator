@@ -1,4 +1,4 @@
-import type { BasicInfo, ProjectDetails, Resource } from '@resources-api'
+import type { BasicInfo, ProjectDetails, Resource } from '@resources/api'
 import type { ResourceDraftChangeCounts } from './draftChangeCounts'
 
 export interface ResourceDraft {

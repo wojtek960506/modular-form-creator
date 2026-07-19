@@ -7,8 +7,7 @@
     "paths": {
       "@design-system/*": ["./src/design-system/*"],
       "@pages/*": ["./src/pages/*"],
-      "@resources/*": ["./src/resources/*"],
-      "@resources-api": ["./src/resources.api.ts"]
+      "@resources/*": ["./src/resources/*"]
     },
     "types": ["vite/client"],
     "skipLibCheck": true,

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getErrorMessage } from '@resources-api'
+import { getErrorMessage } from '@resources/api'
 import { useDeleteResourceMutation, useResourcesQuery } from '@resources/queries'
 import {
   FeedbackMessage,

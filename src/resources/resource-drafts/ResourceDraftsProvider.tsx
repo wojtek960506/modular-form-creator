@@ -1,5 +1,5 @@
 import { useMemo, useState, type ReactNode } from 'react'
-import type { Resource } from '@resources-api'
+import type { Resource } from '@resources/api'
 import { ResourceDraftsContext } from './context'
 import { getResourceDraftChangeCounts } from './draftChangeCounts'
 import type { ResourceDraft, ResourceDraftsContextValue } from './types'

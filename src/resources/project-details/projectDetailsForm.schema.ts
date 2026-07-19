@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { ProjectDetails } from '@resources-api'
+import type { ProjectDetails } from '@resources/api'
 import {
   PROJECT_CATEGORIES,
   TEAM_MEMBER_OPTIONS,

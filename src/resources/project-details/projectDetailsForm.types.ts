@@ -1,5 +1,5 @@
 import type { SelectOption } from '@design-system/components/Select'
-import type { ProjectDetails } from '@resources-api'
+import type { ProjectDetails } from '@resources/api'
 
 export const PROJECT_CATEGORIES = ['internal', 'external', 'vendor'] as const
 export const TEAM_MEMBER_OPTIONS = [

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Badge } from '@design-system/components/Badge'
 import { Button } from '@design-system/components/Button'
-import type { Resource } from '@resources-api'
+import type { Resource } from '@resources/api'
 import { formatResourceStatusLabel } from '@resources/formatResourceStatusLabel'
 import {
   DeleteButton,

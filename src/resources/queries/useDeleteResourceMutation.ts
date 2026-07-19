@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { deleteResource } from '@resources-api'
+import { deleteResource } from '@resources/api'
 import { invalidateResourcesQuery } from './queryClientHelpers'
 
 interface UseDeleteResourceMutationOptions {

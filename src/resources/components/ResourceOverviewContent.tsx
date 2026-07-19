@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
-import type { Resource } from '@resources-api'
+import type { Resource } from '@resources/api'
 import {
   canProvisionResource,
   isBasicInfoComplete,
