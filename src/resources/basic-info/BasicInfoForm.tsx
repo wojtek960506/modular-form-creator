@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import { Card } from '@design-system/components/Card'
 import type { BasicInfo, Resource } from '@resources/api'
-import { ModuleFormActions } from '../components/ModuleFormActions'
+import { ModuleFormActions } from '@resources/shared'
 import { BasicInfoFields } from './BasicInfoFields'
 import { basicInfoSchema } from './basicInfoForm.schema'
 import {

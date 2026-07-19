@@ -9,8 +9,8 @@ import {
   getUnsavedOptionsHelperText,
   hasUnsavedChange,
   hasUnsavedOptionsChange,
-} from '../components/draftFieldHelpers'
-import { UnsavedField } from '../components/UnsavedField'
+  UnsavedField,
+} from '@resources/shared'
 import {
   categoryOptions,
   teamMemberOptions,

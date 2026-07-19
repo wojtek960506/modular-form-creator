@@ -6,8 +6,8 @@ import {
   getModifiedHelperText,
   getUnsavedHelperText,
   hasUnsavedChange,
-} from '../components/draftFieldHelpers'
-import { UnsavedField } from '../components/UnsavedField'
+  UnsavedField,
+} from '@resources/shared'
 import { formatPriorityLabel } from './formatPriorityLabel'
 import { priorityOptions, type BasicInfoFormValues } from './basicInfoForm.types'
 

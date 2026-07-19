@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { getErrorMessage } from '@resources/api'
-import { ResourceOverviewContent } from '@resources/components/ResourceOverviewContent'
+import { ResourceOverviewContent } from '@resources/overview'
 import {
   useProvisionResourceMutation,
   useReplaceResourceMutation,

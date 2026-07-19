@@ -1,6 +1,4 @@
-import { CreateResourceForm } from '@resources/components/CreateResourceForm'
-import { ResourcesHeader } from '@resources/components/ResourcesHeader'
-import { ResourcesList } from '@resources/components/ResourcesList'
+import { CreateResourceForm, ResourcesHeader, ResourcesList } from '@resources/list'
 import { PageCard } from '@shared/ui'
 
 export function ResourcesPage() {

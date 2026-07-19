@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Badge } from '@design-system/components/Badge'
 import type { Resource } from '@resources/api'
 import { formatResourceStatusLabel } from '@resources/formatResourceStatusLabel'
-import { formatUnsavedChangesLabel } from './formatUnsavedChangesLabel'
+import { formatUnsavedChangesLabel } from '@resources/shared'
 
 interface ResourceDetailsHeaderProps {
   unsavedChangesCount?: number

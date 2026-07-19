@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 import { Badge } from '@design-system/components/Badge'
 import type { ProjectDetails, Resource } from '@resources/api'
-import { formatFieldValue } from './formatFieldValue'
-import { formatUnsavedChangesLabel } from './formatUnsavedChangesLabel'
 import {
   DefinitionList,
   Description,
@@ -10,7 +8,8 @@ import {
   SectionTitle,
   Term,
   TermRow,
-} from './ResourceDetailsSections.styles'
+} from '@resources/resource-details/ResourceDetailsSections.styles'
+import { formatFieldValue, formatUnsavedChangesLabel } from '@resources/shared'
 
 interface ProjectDetailsSectionProps {
   unsavedChangesCount?: number

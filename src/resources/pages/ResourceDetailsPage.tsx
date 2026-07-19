@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { getErrorMessage } from '@resources/api'
-import { BasicInfoSection } from '@resources/components/BasicInfoSection'
-import { ProjectDetailsSection } from '@resources/components/ProjectDetailsSection'
-import { ResourceDetailsHeader } from '@resources/components/ResourceDetailsHeader'
+import { BasicInfoSection } from '@resources/basic-info'
+import { ProjectDetailsSection } from '@resources/project-details'
 import { useResourceQuery } from '@resources/queries'
+import { ResourceDetailsHeader } from '@resources/resource-details'
 import { useResourceDrafts } from '@resources/resource-drafts'
 import { BackButton, FeedbackMessage, PageCard, StateMessage } from '@shared/ui'
 
