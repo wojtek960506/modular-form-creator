@@ -1,9 +1,16 @@
 import { Controller, useFormContext } from 'react-hook-form'
-import styled from 'styled-components'
 import { CheckboxGroup } from '@design-system/components/CheckboxGroup'
 import { Input } from '@design-system/components/Input'
 import { Select } from '@design-system/components/Select'
 import type { ProjectDetails } from '@resources-api'
+import {
+  getModifiedHelperText,
+  getUnsavedHelperText,
+  getUnsavedOptionsHelperText,
+  hasUnsavedChange,
+  hasUnsavedOptionsChange,
+} from '../components/draftFieldHelpers'
+import { UnsavedField } from '../components/UnsavedField'
 import {
   categoryOptions,
   teamMemberOptions,
@@ -26,26 +33,6 @@ export function ProjectDetailsFields({
     formState: { errors },
   } = useFormContext<ProjectDetailsFormValues>()
 
-  function getModifiedHelperText(dirty: boolean) {
-    return editing && dirty ? 'Modified' : undefined
-  }
-
-  function getUnsavedHelperText(value: string, persistedValue: string | undefined) {
-    if (editing || persistedValue === undefined || value === persistedValue) {
-      return undefined
-    }
-
-    return `Unsaved. Previous value: ${getPreviousValue(persistedValue)}`
-  }
-
-  function getUnsavedOptionsHelperText(value: string[], persistedValue: string[] | undefined) {
-    if (editing || !persistedValue || areSameOptions(value, persistedValue)) {
-      return undefined
-    }
-
-    return `Unsaved. Previous value: ${getPreviousOptionsValue(persistedValue)}`
-  }
-
   return (
     <>
       <Controller
@@ -60,8 +47,8 @@ export function ProjectDetailsFields({
               label="Project name"
               state={fieldsLocked ? 'disabled' : 'normal'}
               helperText={
-                getModifiedHelperText(fieldState.isDirty) ??
-                getUnsavedHelperText(field.value, persistedProjectDetails?.projectName)
+                getModifiedHelperText(editing, fieldState.isDirty) ??
+                getUnsavedHelperText(editing, field.value, persistedProjectDetails?.projectName)
               }
               error={errors.projectName?.message}
             />
@@ -79,8 +66,8 @@ export function ProjectDetailsFields({
               inputMode="numeric"
               state={fieldsLocked ? 'disabled' : 'normal'}
               helperText={
-                getModifiedHelperText(fieldState.isDirty) ??
-                getUnsavedHelperText(field.value, persistedProjectDetails?.budget)
+                getModifiedHelperText(editing, fieldState.isDirty) ??
+                getUnsavedHelperText(editing, field.value, persistedProjectDetails?.budget)
               }
               error={errors.budget?.message}
             />
@@ -100,8 +87,8 @@ export function ProjectDetailsFields({
               options={categoryOptions}
               state={fieldsLocked ? 'disabled' : 'normal'}
               helperText={
-                getModifiedHelperText(fieldState.isDirty) ??
-                getUnsavedHelperText(field.value, persistedProjectDetails?.category)
+                getModifiedHelperText(editing, fieldState.isDirty) ??
+                getUnsavedHelperText(editing, field.value, persistedProjectDetails?.category)
               }
               error={errors.category?.message}
             />
@@ -122,8 +109,12 @@ export function ProjectDetailsFields({
               onChange={field.onChange}
               disabled={fieldsLocked}
               helper={
-                getModifiedHelperText(fieldState.isDirty) ??
-                getUnsavedOptionsHelperText(field.value, persistedProjectDetails?.options)
+                getModifiedHelperText(editing, fieldState.isDirty) ??
+                getUnsavedOptionsHelperText(
+                  editing,
+                  field.value,
+                  persistedProjectDetails?.options,
+                )
               }
               error={errors.options?.message}
             />
@@ -133,38 +124,3 @@ export function ProjectDetailsFields({
     </>
   )
 }
-
-interface UnsavedFieldProps {
-  changed: boolean
-  children: React.ReactNode
-}
-
-function UnsavedField({ changed, children }: UnsavedFieldProps) {
-  return <UnsavedFieldFrame $changed={changed}>{children}</UnsavedFieldFrame>
-}
-
-function hasUnsavedChange(value: string, persistedValue: string | undefined) {
-  return persistedValue !== undefined && value !== persistedValue
-}
-
-function hasUnsavedOptionsChange(value: string[], persistedValue: string[] | undefined) {
-  return Boolean(persistedValue && !areSameOptions(value, persistedValue))
-}
-
-function areSameOptions(value: string[], persistedValue: string[]) {
-  return value.join('\u0000') === persistedValue.join('\u0000')
-}
-
-function getPreviousValue(value: string) {
-  return value.trim() || 'Not provided'
-}
-
-function getPreviousOptionsValue(value: string[]) {
-  return value.length > 0 ? value.join(', ') : 'Not provided'
-}
-
-const UnsavedFieldFrame = styled.div<{ $changed: boolean }>`
-  border-left: 3px solid
-    ${({ $changed, theme }) => ($changed ? theme.colors.warning : 'transparent')};
-  padding-left: ${({ $changed, theme }) => ($changed ? theme.spacing.sm : '0')};
-`
