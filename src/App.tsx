@@ -1,11 +1,11 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
-import { BasicInfoPage } from '@pages/resources/BasicInfoPage'
-import { ProjectDetailsPage } from '@pages/resources/ProjectDetailsPage'
-import { ResourceDetailsPage } from '@pages/resources/ResourceDetailsPage'
-import { ResourceOverviewPage } from '@pages/resources/ResourceOverviewPage'
-import { ResourcesPage } from '@pages/resources/ResourcesPage'
-import { ResourceDraftsProvider } from '@pages/resources/resource-drafts'
+import { BasicInfoPage } from '@resources/pages/BasicInfoPage'
+import { ProjectDetailsPage } from '@resources/pages/ProjectDetailsPage'
+import { ResourceDetailsPage } from '@resources/pages/ResourceDetailsPage'
+import { ResourceOverviewPage } from '@resources/pages/ResourceOverviewPage'
+import { ResourcesPage } from '@resources/pages/ResourcesPage'
+import { ResourceDraftsProvider } from '@resources/resource-drafts'
 
 function App() {
   return (

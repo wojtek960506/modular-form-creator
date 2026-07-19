@@ -5,9 +5,9 @@ import { PageHeader } from '@pages/components/PageHeader'
 import { FeedbackMessage, StateMessage } from '@pages/components/messages'
 import { Badge } from '@design-system/components/Badge'
 import { getErrorMessage } from '@resources-api'
+import { BasicInfoForm, type BasicInfoPayload } from '@resources/basic-info'
 import { useResourceQuery, useUpdateBasicInfoMutation } from '@resources/queries'
-import { BasicInfoForm, type BasicInfoPayload } from './basic-info'
-import { useResourceDrafts } from './resource-drafts'
+import { useResourceDrafts } from '@resources/resource-drafts'
 
 export function BasicInfoPage() {
   const { resourceId } = useParams<{ resourceId: string }>()

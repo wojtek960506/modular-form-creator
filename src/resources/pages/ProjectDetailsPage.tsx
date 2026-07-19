@@ -8,10 +8,10 @@ import { PageCard } from '@pages/components/PageCard'
 import { PageHeader } from '@pages/components/PageHeader'
 import { FeedbackMessage, StateMessage } from '@pages/components/messages'
 import { getErrorMessage } from '@resources-api'
+import { ProjectDetailsForm, type ProjectDetailsPayload } from '@resources/project-details'
 import { useResourceQuery, useUpdateProjectDetailsMutation } from '@resources/queries'
 import { isBasicInfoComplete } from '@resources/resourceCompletion'
-import { ProjectDetailsForm, type ProjectDetailsPayload } from './project-details'
-import { useResourceDrafts } from './resource-drafts'
+import { useResourceDrafts } from '@resources/resource-drafts'
 
 export function ProjectDetailsPage() {
   const { resourceId } = useParams<{ resourceId: string }>()

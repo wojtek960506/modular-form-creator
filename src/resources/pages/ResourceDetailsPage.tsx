@@ -3,11 +3,11 @@ import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
 import { FeedbackMessage, StateMessage } from '@pages/components/messages'
 import { getErrorMessage } from '@resources-api'
+import { BasicInfoSection } from '@resources/components/BasicInfoSection'
+import { ProjectDetailsSection } from '@resources/components/ProjectDetailsSection'
+import { ResourceDetailsHeader } from '@resources/components/ResourceDetailsHeader'
 import { useResourceQuery } from '@resources/queries'
-import { BasicInfoSection } from './components/BasicInfoSection'
-import { ProjectDetailsSection } from './components/ProjectDetailsSection'
-import { ResourceDetailsHeader } from './components/ResourceDetailsHeader'
-import { useResourceDrafts } from './resource-drafts'
+import { useResourceDrafts } from '@resources/resource-drafts'
 
 export function ResourceDetailsPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
