@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Badge } from '@design-system/components/Badge'
 import type { BasicInfo, Resource } from '@resources-api'
+import { formatFieldValue } from './formatFieldValue'
 import { formatUnsavedChangesLabel } from './formatUnsavedChangesLabel'
 import {
   DefinitionList,
@@ -38,35 +39,35 @@ export function BasicInfoSection({
             changed={hasChanged(draftBasicInfo, persistedResource, 'resourceName')}
             label="Resource name"
           />
-          <Description>{getValue(resource.basicInfo.resourceName)}</Description>
+          <Description>{formatFieldValue(resource.basicInfo.resourceName)}</Description>
         </div>
         <div>
           <FieldTerm
             changed={hasChanged(draftBasicInfo, persistedResource, 'owner')}
             label="Owner"
           />
-          <Description>{getValue(resource.basicInfo.owner)}</Description>
+          <Description>{formatFieldValue(resource.basicInfo.owner)}</Description>
         </div>
         <div>
           <FieldTerm
             changed={hasChanged(draftBasicInfo, persistedResource, 'email')}
             label="Email"
           />
-          <Description>{getValue(resource.basicInfo.email)}</Description>
+          <Description>{formatFieldValue(resource.basicInfo.email)}</Description>
         </div>
         <div>
           <FieldTerm
             changed={hasChanged(draftBasicInfo, persistedResource, 'description')}
             label="Description"
           />
-          <Description>{getValue(resource.basicInfo.description)}</Description>
+          <Description>{formatFieldValue(resource.basicInfo.description)}</Description>
         </div>
         <div>
           <FieldTerm
             changed={hasChanged(draftBasicInfo, persistedResource, 'priority')}
             label="Priority"
           />
-          <Description>{getValue(resource.basicInfo.priority)}</Description>
+          <Description>{formatFieldValue(resource.basicInfo.priority)}</Description>
         </div>
       </DefinitionList>
     </Section>
@@ -105,8 +106,4 @@ function hasChanged(
   }
 
   return draftBasicInfo[key] !== persistedResource.basicInfo[key]
-}
-
-function getValue(value: string) {
-  return value.trim() || 'Not provided'
 }

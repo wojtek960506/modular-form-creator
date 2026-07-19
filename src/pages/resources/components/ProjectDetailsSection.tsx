@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Badge } from '@design-system/components/Badge'
 import type { ProjectDetails, Resource } from '@resources-api'
+import { formatFieldValue } from './formatFieldValue'
 import { formatUnsavedChangesLabel } from './formatUnsavedChangesLabel'
 import {
   DefinitionList,
@@ -38,21 +39,21 @@ export function ProjectDetailsSection({
             changed={hasChanged(draftProjectDetails, persistedResource, 'projectName')}
             label="Project name"
           />
-          <Description>{getValue(resource.projectDetails.projectName)}</Description>
+          <Description>{formatFieldValue(resource.projectDetails.projectName)}</Description>
         </div>
         <div>
           <FieldTerm
             changed={hasChanged(draftProjectDetails, persistedResource, 'budget')}
             label="Budget"
           />
-          <Description>{getValue(resource.projectDetails.budget)}</Description>
+          <Description>{formatFieldValue(resource.projectDetails.budget)}</Description>
         </div>
         <div>
           <FieldTerm
             changed={hasChanged(draftProjectDetails, persistedResource, 'category')}
             label="Category"
           />
-          <Description>{getValue(resource.projectDetails.category)}</Description>
+          <Description>{formatFieldValue(resource.projectDetails.category)}</Description>
         </div>
         <div>
           <FieldTerm
@@ -102,10 +103,6 @@ function hasChanged(
   }
 
   return draftProjectDetails[key] !== persistedResource.projectDetails[key]
-}
-
-function getValue(value: string) {
-  return value.trim() || 'Not provided'
 }
 
 function getOptionsValue(values: string[]) {
