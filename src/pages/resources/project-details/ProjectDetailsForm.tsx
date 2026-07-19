@@ -20,7 +20,7 @@ interface ProjectDetailsFormProps {
   onSubmit: (values: ProjectDetailsPayload) => Promise<Resource | void>
   persistedProjectDetails?: ProjectDetails
   projectDetails: ProjectDetails
-  saveLabel?: string
+  saveLabel: string
 }
 
 export function ProjectDetailsForm({

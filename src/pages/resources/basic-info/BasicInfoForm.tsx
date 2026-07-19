@@ -20,7 +20,7 @@ interface BasicInfoFormProps {
   isSubmitting: boolean
   onSubmit: (values: BasicInfoPayload) => Promise<Resource | void>
   persistedBasicInfo?: BasicInfo
-  saveLabel?: string
+  saveLabel: string
 }
 
 export function BasicInfoForm({

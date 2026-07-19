@@ -8,7 +8,7 @@ interface ModuleFormActionsProps {
   isSubmitting: boolean
   onCancel: () => void
   onEdit: () => void
-  saveLabel?: string
+  saveLabel: string
 }
 
 export function ModuleFormActions({
@@ -18,7 +18,7 @@ export function ModuleFormActions({
   isSubmitting,
   onCancel,
   onEdit,
-  saveLabel = 'Save changes',
+  saveLabel,
 }: ModuleFormActionsProps) {
   return (
     <Actions>

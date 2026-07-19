@@ -90,7 +90,7 @@ export function ProjectDetailsPage() {
               projectDetails={draftResource.projectDetails}
               onSubmit={submitProjectDetails}
               persistedProjectDetails={isCompleted ? resource?.projectDetails : undefined}
-              saveLabel={isCompleted ? 'Save draft changes' : undefined}
+              saveLabel={isCompleted ? 'Save draft changes' : 'Save changes'}
             />
           )}
         </>

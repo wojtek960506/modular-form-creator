@@ -70,7 +70,7 @@ export function BasicInfoPage() {
             isSubmitting={updateBasicInfoMutation.isPending}
             onSubmit={submitBasicInfo}
             persistedBasicInfo={isCompleted ? resource?.basicInfo : undefined}
-            saveLabel={isCompleted ? 'Save draft changes' : undefined}
+            saveLabel={isCompleted ? 'Save draft changes' : 'Save changes'}
           />
         </>
       )}
