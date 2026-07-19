@@ -70,7 +70,6 @@ export function BasicInfoForm({
 
           {!disabled && (
             <ModuleFormActions
-              disabled={disabled}
               editLabel="Edit Basic Info"
               editing={editing}
               isDirty={isDirty}

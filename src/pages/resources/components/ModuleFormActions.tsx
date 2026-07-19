@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
 
 interface ModuleFormActionsProps {
-  disabled: boolean
   editLabel: string
   editing: boolean
   isDirty: boolean
@@ -13,7 +12,6 @@ interface ModuleFormActionsProps {
 }
 
 export function ModuleFormActions({
-  disabled,
   editLabel,
   editing,
   isDirty,
@@ -26,7 +24,7 @@ export function ModuleFormActions({
     <Actions>
       {editing && (
         <>
-          <Button type="submit" disabled={isSubmitting || disabled || !isDirty}>
+          <Button type="submit" disabled={isSubmitting || !isDirty}>
             {isSubmitting ? 'Saving...' : saveLabel}
           </Button>
           <Button
@@ -44,7 +42,6 @@ export function ModuleFormActions({
         <Button
           type="button"
           variant="secondary"
-          disabled={disabled}
           onClick={onEdit}
         >
           {editLabel}

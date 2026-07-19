@@ -70,7 +70,6 @@ export function ProjectDetailsForm({
 
           {!disabled && (
             <ModuleFormActions
-              disabled={disabled}
               editLabel="Edit Project Details"
               editing={editing}
               isDirty={isDirty}
