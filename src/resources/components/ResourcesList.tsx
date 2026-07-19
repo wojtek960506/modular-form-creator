@@ -1,41 +1,30 @@
 import { useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getErrorMessage } from '@resources-api'
+import { useDeleteResourceMutation, useResourcesQuery } from '@resources/queries'
 import {
-  deleteResource,
-  getErrorMessage,
-  getResources,
-  resourcesQueryKey,
-} from '@resources-api'
+  FeedbackMessage,
+  StateMessage,
+} from '@pages/components/messages'
 import {
   EmptyState,
   EmptyStateText,
   EmptyStateTitle,
-  FeedbackMessage,
   List,
   Section,
   SectionHeader,
   SectionMeta,
   SectionTitle,
-  StateMessage,
 } from './ResourcesList.styles'
 import { ResourcesListItem } from './ResourcesListItem'
 
 export function ResourcesList() {
   const [deletingResourceId, setDeletingResourceId] = useState<string | null>(null)
-  const queryClient = useQueryClient()
-  const resourcesQuery = useQuery({
-    queryKey: resourcesQueryKey,
-    queryFn: getResources,
-  })
-  const deleteResourceMutation = useMutation({
-    mutationFn: deleteResource,
-    onMutate: async (resourceId) => {
+  const resourcesQuery = useResourcesQuery()
+  const deleteResourceMutation = useDeleteResourceMutation({
+    onMutate: (resourceId) => {
       setDeletingResourceId(resourceId)
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: resourcesQueryKey })
-    },
-    onSettled: async () => {
+    onSettled: () => {
       setDeletingResourceId(null)
     },
   })
@@ -47,25 +36,25 @@ export function ResourcesList() {
     <Section>
       <SectionHeader>
         <SectionTitle>Current items</SectionTitle>
-        {resourcesQuery.data ? (
+        {resourcesQuery.data && (
           <SectionMeta>{resourcesQuery.data.pagination.totalItems} total</SectionMeta>
-        ) : null}
+        )}
       </SectionHeader>
 
-      {resourcesQuery.isError ? (
+      {resourcesQuery.isError && (
         <FeedbackMessage>{getErrorMessage(resourcesQuery.error)}</FeedbackMessage>
-      ) : null}
+      )}
 
-      {resourcesQuery.isLoading ? <StateMessage>Loading resources...</StateMessage> : null}
+      {resourcesQuery.isLoading && <StateMessage>Loading resources...</StateMessage>}
 
-      {emptyStateVisible ? (
+      {emptyStateVisible && (
         <EmptyState>
           <EmptyStateTitle>No resources yet</EmptyStateTitle>
           <EmptyStateText>Create your first resource to populate the list.</EmptyStateText>
         </EmptyState>
-      ) : null}
+      )}
 
-      {!resourcesQuery.isLoading && resources.length > 0 ? (
+      {!resourcesQuery.isLoading && resources.length > 0 && (
         <List>
           {resources.map((resource) => (
             <ResourcesListItem
@@ -76,7 +65,7 @@ export function ResourcesList() {
             />
           ))}
         </List>
-      ) : null}
+      )}
     </Section>
   )
 }

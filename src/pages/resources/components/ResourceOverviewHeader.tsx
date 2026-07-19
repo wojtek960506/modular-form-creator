@@ -4,26 +4,26 @@ import type { Resource } from '@resources-api'
 import { formatResourceStatusLabel } from '@resources/formatResourceStatusLabel'
 import { formatUnsavedChangesLabel } from './formatUnsavedChangesLabel'
 
-interface ResourceDetailsHeaderProps {
+interface ResourceOverviewHeaderProps {
   unsavedChangesCount?: number
   resource: Resource
 }
 
-export function ResourceDetailsHeader({
+export function ResourceOverviewHeader({
   unsavedChangesCount = 0,
   resource,
-}: ResourceDetailsHeaderProps) {
+}: ResourceOverviewHeaderProps) {
   return (
     <Header>
       <Title>{resource.name}</Title>
-      <Meta>
+      <HeaderMeta>
         <Badge variant={resource.status === 'completed' ? 'success' : 'info'}>
           {formatResourceStatusLabel(resource.status)}
         </Badge>
         {unsavedChangesCount > 0 && (
           <Badge variant="warning">{formatUnsavedChangesLabel(unsavedChangesCount)}</Badge>
         )}
-      </Meta>
+      </HeaderMeta>
     </Header>
   )
 }
@@ -37,9 +37,8 @@ const Title = styled.h1`
   color: ${({ theme }) => theme.colors.inkStrong};
 `
 
-const Meta = styled.div`
+const HeaderMeta = styled.div`
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
   color: ${({ theme }) => theme.colors.inkMuted};

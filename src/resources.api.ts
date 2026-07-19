@@ -47,6 +47,12 @@ export interface CreateResourceInput {
   resourceName: string
 }
 
+export interface ReplaceResourceInput {
+  name: string
+  basicInfo: BasicInfo
+  projectDetails: ProjectDetails
+}
+
 export async function getResources() {
   const response = await apiClient.get<ResourcesResponse>('/api/resources', {
     params: {
@@ -73,6 +79,30 @@ export async function createResource(payload: CreateResourceInput) {
 
 export async function deleteResource(resourceId: string) {
   const response = await apiClient.delete<Resource>(`/api/resources/${resourceId}`)
+
+  return response.data
+}
+
+export async function provisionResource(resourceId: string) {
+  const response = await apiClient.patch<Resource>(`/api/resources/${resourceId}/provisioning`)
+
+  return response.data
+}
+
+export async function updateBasicInfo(resourceId: string, payload: BasicInfo) {
+  const response = await apiClient.patch<Resource>(`/api/resources/${resourceId}/basic-info`, payload)
+
+  return response.data
+}
+
+export async function updateProjectDetails(resourceId: string, payload: ProjectDetails) {
+  const response = await apiClient.patch<Resource>(`/api/resources/${resourceId}/project-details`, payload)
+
+  return response.data
+}
+
+export async function replaceResource(resourceId: string, payload: ReplaceResourceInput) {
+  const response = await apiClient.put<Resource>(`/api/resources/${resourceId}`, payload)
 
   return response.data
 }
