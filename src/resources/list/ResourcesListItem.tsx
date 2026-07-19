@@ -15,15 +15,10 @@ import {
 
 interface ResourcesListItemProps {
   resource: Resource
-  isDeleting: boolean
   onDelete: () => void
 }
 
-export function ResourcesListItem({
-  resource,
-  isDeleting,
-  onDelete,
-}: ResourcesListItemProps) {
+export function ResourcesListItem({ resource, onDelete }: ResourcesListItemProps) {
   return (
     <ResourceItem>
       <ResourceItemBody>
@@ -42,10 +37,9 @@ export function ResourcesListItem({
             type="button"
             variant="ghost"
             size="small"
-            disabled={isDeleting}
             onClick={onDelete}
           >
-            {isDeleting ? 'Deleting...' : 'Delete'}
+            Delete
           </DeleteButton>
         </ResourceItemActions>
       </ResourceItemBody>

@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import type { Resource } from '@resources/api'
 import { getErrorMessage } from '@resources/api'
-import { useDeleteResourceMutation, useResourcesQuery } from '@resources/queries'
+import { useResourcesQuery } from '@resources/queries'
 import { FeedbackMessage, StateMessage } from '@shared/ui'
+import { ConfirmDeleteDialog } from './ConfirmDeleteDialog'
 import {
   EmptyState,
   EmptyStateText,
@@ -15,16 +17,8 @@ import {
 import { ResourcesListItem } from './ResourcesListItem'
 
 export function ResourcesList() {
-  const [deletingResourceId, setDeletingResourceId] = useState<string | null>(null)
+  const [resourcePendingDeletion, setResourcePendingDeletion] = useState<Resource | null>(null)
   const resourcesQuery = useResourcesQuery()
-  const deleteResourceMutation = useDeleteResourceMutation({
-    onMutate: (resourceId) => {
-      setDeletingResourceId(resourceId)
-    },
-    onSettled: () => {
-      setDeletingResourceId(null)
-    },
-  })
 
   const resources = resourcesQuery.data?.items ?? []
   const emptyStateVisible = !resourcesQuery.isLoading && resources.length === 0
@@ -57,12 +51,16 @@ export function ResourcesList() {
             <ResourcesListItem
               key={resource._id}
               resource={resource}
-              isDeleting={deletingResourceId === String(resource.resourceId)}
-              onDelete={() => deleteResourceMutation.mutate(String(resource.resourceId))}
+              onDelete={() => setResourcePendingDeletion(resource)}
             />
           ))}
         </List>
       )}
+
+      <ConfirmDeleteDialog
+        resource={resourcePendingDeletion}
+        onClose={() => setResourcePendingDeletion(null)}
+      />
     </Section>
   )
 }
