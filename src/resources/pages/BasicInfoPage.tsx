@@ -5,6 +5,7 @@ import { BasicInfoForm, type BasicInfoPayload } from '@resources/basic-info'
 import { useResourceQuery, useUpdateBasicInfoMutation } from '@resources/queries'
 import { useResourceDrafts } from '@resources/resource-drafts'
 import { BackButton, FeedbackMessage, PageCard, PageHeader, StateMessage } from '@shared/ui'
+import { isBasicInfoComplete } from '@resources/resourceCompletion'
 
 export function BasicInfoPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
@@ -72,7 +73,7 @@ export function BasicInfoPage() {
             onSubmit={submitBasicInfo}
             persistedBasicInfo={isCompleted ? resource?.basicInfo : undefined}
             saveLabel={isCompleted ? 'Save draft changes' : 'Save changes'}
-            startInEditMode={!isCompleted}
+            startInEditMode={!isBasicInfoComplete(draftResource.basicInfo)}
           />
         </>
       )}

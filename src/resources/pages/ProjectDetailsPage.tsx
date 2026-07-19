@@ -6,7 +6,7 @@ import { Card } from '@design-system/components/Card'
 import { getErrorMessage } from '@resources/api'
 import { ProjectDetailsForm, type ProjectDetailsPayload } from '@resources/project-details'
 import { useResourceQuery, useUpdateProjectDetailsMutation } from '@resources/queries'
-import { isBasicInfoComplete } from '@resources/resourceCompletion'
+import { isBasicInfoComplete, isProjectDetailsComplete } from '@resources/resourceCompletion'
 import { useResourceDrafts } from '@resources/resource-drafts'
 import { BackButton, FeedbackMessage, PageCard, PageHeader, StateMessage } from '@shared/ui'
 
@@ -92,7 +92,7 @@ export function ProjectDetailsPage() {
               onSubmit={submitProjectDetails}
               persistedProjectDetails={isCompleted ? resource?.projectDetails : undefined}
               saveLabel={isCompleted ? 'Save draft changes' : 'Save changes'}
-              startInEditMode={!isCompleted}
+              startInEditMode={!isProjectDetailsComplete(draftResource.projectDetails)}
             />
           )}
         </>
