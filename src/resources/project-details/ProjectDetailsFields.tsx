@@ -16,6 +16,7 @@ import {
   teamMemberOptions,
   type ProjectDetailsFormValues,
 } from './projectDetailsForm.types'
+import { formatCategoryLabel } from './formatCategoryLabel'
 
 interface ProjectDetailsFieldsProps {
   editing: boolean
@@ -32,10 +33,6 @@ export function ProjectDetailsFields({
     control,
     formState: { errors },
   } = useFormContext<ProjectDetailsFormValues>()
-
-  function getCategoryLabel(value: string) {
-    return categoryOptions.find((option) => option.value === value)?.label ?? value
-  }
 
   return (
     <>
@@ -96,7 +93,7 @@ export function ProjectDetailsFields({
                   editing,
                   field.value,
                   persistedProjectDetails?.category,
-                  getCategoryLabel,
+                  formatCategoryLabel,
                 )
               }
               error={errors.category?.message}

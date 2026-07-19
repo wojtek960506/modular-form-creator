@@ -1,6 +1,8 @@
 export { ModuleFormActions } from './ModuleFormActions'
 export { UnsavedField } from './UnsavedField'
 export {
+  areSameOptions,
+  formatOptionsValue,
   getModifiedHelperText,
   getUnsavedHelperText,
   getUnsavedOptionsHelperText,

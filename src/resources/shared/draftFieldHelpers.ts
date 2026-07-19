@@ -10,6 +10,15 @@ export function hasUnsavedOptionsChange(value: string[], persistedValue: string[
   return Boolean(persistedValue && !areSameOptions(value, persistedValue))
 }
 
+export function areSameOptions(value: string[], persistedValue: string[]) {
+  // Use a separator that is unlikely to appear in form values to compare array content safely.
+  return value.join('\u0000') === persistedValue.join('\u0000')
+}
+
+export function formatOptionsValue(value: string[]) {
+  return value.length > 0 ? value.join(', ') : 'Not provided'
+}
+
 export function getUnsavedHelperText(
   editing: boolean,
   value: string,
@@ -35,15 +44,10 @@ export function getUnsavedOptionsHelperText(
   return `Unsaved. Previous value: ${getPreviousOptionsValue(persistedValue)}`
 }
 
-function areSameOptions(value: string[], persistedValue: string[]) {
-  // Use a separator that is unlikely to appear in form values to compare array content safely.
-  return value.join('\u0000') === persistedValue.join('\u0000')
-}
-
 function getPreviousValue(value: string) {
   return value.trim() || 'Not provided'
 }
 
 function getPreviousOptionsValue(value: string[]) {
-  return value.length > 0 ? value.join(', ') : 'Not provided'
+  return formatOptionsValue(value)
 }

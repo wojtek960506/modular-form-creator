@@ -1,108 +1,82 @@
-import styled from 'styled-components'
-import { Badge } from '@design-system/components/Badge'
-import type { BasicInfo, Resource } from '@resources/api'
+import type { BasicInfo } from '@resources/api'
+import { useResource } from '@resources/resource'
 import {
   DefinitionList,
   Description,
   Section,
-  SectionTitle,
-  Term,
-  TermRow,
 } from '@resources/resource-details/ResourceDetailsSections.styles'
+import {
+  ResourceDetailsFieldTerm,
+  ResourceDetailsSectionHeader,
+} from '@resources/resource-details'
 import { formatFieldValue, formatUnsavedChangesLabel } from '@resources/shared'
+import { formatPriorityLabel } from './formatPriorityLabel'
 
-interface BasicInfoSectionProps {
-  unsavedChangesCount?: number
-  draftBasicInfo?: BasicInfo
-  persistedResource?: Resource
-  resource: Resource
-}
+export function BasicInfoSection() {
+  const { draft, draftChangeCounts, draftResource, resource } = useResource()
 
-export function BasicInfoSection({
-  unsavedChangesCount = 0,
-  draftBasicInfo,
-  persistedResource,
-  resource,
-}: BasicInfoSectionProps) {
+  if (!draftResource || !resource) return null
+
+  const draftBasicInfo = draft?.basicInfo
+  const unsavedChangesCount = draftChangeCounts.basicInfo
+
   return (
     <Section>
-      <SectionHeader>
-        <SectionTitle>Basic info</SectionTitle>
-        {unsavedChangesCount > 0 && (
-          <Badge variant="warning">{formatUnsavedChangesLabel(unsavedChangesCount)}</Badge>
-        )}
-      </SectionHeader>
+      <ResourceDetailsSectionHeader
+        title="Basic info"
+        unsavedChangesLabel={
+          unsavedChangesCount > 0 ? formatUnsavedChangesLabel(unsavedChangesCount) : undefined
+        }
+      />
       <DefinitionList>
         <div>
-          <FieldTerm
-            changed={hasChanged(draftBasicInfo, persistedResource, 'resourceName')}
+          <ResourceDetailsFieldTerm
+            changed={hasChanged(draftBasicInfo, resource.basicInfo, 'resourceName')}
             label="Resource name"
           />
-          <Description>{formatFieldValue(resource.basicInfo.resourceName)}</Description>
+          <Description>{formatFieldValue(draftResource.basicInfo.resourceName)}</Description>
         </div>
         <div>
-          <FieldTerm
-            changed={hasChanged(draftBasicInfo, persistedResource, 'owner')}
+          <ResourceDetailsFieldTerm
+            changed={hasChanged(draftBasicInfo, resource.basicInfo, 'owner')}
             label="Owner"
           />
-          <Description>{formatFieldValue(resource.basicInfo.owner)}</Description>
+          <Description>{formatFieldValue(draftResource.basicInfo.owner)}</Description>
         </div>
         <div>
-          <FieldTerm
-            changed={hasChanged(draftBasicInfo, persistedResource, 'email')}
+          <ResourceDetailsFieldTerm
+            changed={hasChanged(draftBasicInfo, resource.basicInfo, 'email')}
             label="Email"
           />
-          <Description>{formatFieldValue(resource.basicInfo.email)}</Description>
+          <Description>{formatFieldValue(draftResource.basicInfo.email)}</Description>
         </div>
         <div>
-          <FieldTerm
-            changed={hasChanged(draftBasicInfo, persistedResource, 'description')}
+          <ResourceDetailsFieldTerm
+            changed={hasChanged(draftBasicInfo, resource.basicInfo, 'description')}
             label="Description"
           />
-          <Description>{formatFieldValue(resource.basicInfo.description)}</Description>
+          <Description>{formatFieldValue(draftResource.basicInfo.description)}</Description>
         </div>
         <div>
-          <FieldTerm
-            changed={hasChanged(draftBasicInfo, persistedResource, 'priority')}
+          <ResourceDetailsFieldTerm
+            changed={hasChanged(draftBasicInfo, resource.basicInfo, 'priority')}
             label="Priority"
           />
-          <Description>{formatFieldValue(resource.basicInfo.priority)}</Description>
+          <Description>{formatPriorityLabel(draftResource.basicInfo.priority)}</Description>
         </div>
       </DefinitionList>
     </Section>
   )
 }
 
-const SectionHeader = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.xs};
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
-`
-
-interface FieldTermProps {
-  changed: boolean
-  label: string
-}
-
-function FieldTerm({ changed, label }: FieldTermProps) {
-  return (
-    <TermRow>
-      <Term>{label}</Term>
-      {changed && <Badge variant="warning">Unsaved</Badge>}
-    </TermRow>
-  )
-}
-
 function hasChanged(
   draftBasicInfo: BasicInfo | undefined,
-  persistedResource: Resource | undefined,
+  persistedBasicInfo: BasicInfo,
   key: keyof BasicInfo,
 ) {
-  if (!draftBasicInfo || !persistedResource) {
+  if (!draftBasicInfo) {
     return false
   }
 
-  return draftBasicInfo[key] !== persistedResource.basicInfo[key]
+  return draftBasicInfo[key] !== persistedBasicInfo[key]
 }

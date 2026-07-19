@@ -8,7 +8,7 @@ import { ResourceDetailsHeader } from './ResourceDetailsHeader'
 
 export function ResourceDetailsPageContent() {
   const { resourceId } = useParams<{ resourceId: string }>()
-  const { draft, draftChangeCounts, draftResource, resource, resourceQuery } = useResource()
+  const { draftChangeCounts, draftResource, resource, resourceQuery } = useResource()
 
   return (
     <PageCard>
@@ -26,18 +26,8 @@ export function ResourceDetailsPageContent() {
             resource={draftResource}
             unsavedChangesCount={draftChangeCounts.total}
           />
-          <BasicInfoSection
-            draftBasicInfo={draft?.basicInfo}
-            resource={draftResource}
-            persistedResource={resource}
-            unsavedChangesCount={draftChangeCounts.basicInfo}
-          />
-          <ProjectDetailsSection
-            draftProjectDetails={draft?.projectDetails}
-            resource={draftResource}
-            persistedResource={resource}
-            unsavedChangesCount={draftChangeCounts.projectDetails}
-          />
+          <BasicInfoSection />
+          <ProjectDetailsSection />
         </>
       )}
     </PageCard>
