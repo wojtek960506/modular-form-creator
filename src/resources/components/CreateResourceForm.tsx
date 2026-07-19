@@ -1,20 +1,16 @@
 import { useState, type FormEvent } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
 import { Input } from '@design-system/components/Input'
 import { FeedbackMessage } from '@pages/components/messages'
-import { createResource, getErrorMessage, resourcesQueryKey } from '../../resources.api'
+import { getErrorMessage } from '@resources-api'
+import { useCreateResourceMutation } from '@resources/queries'
 
 export function CreateResourceForm() {
   const [resourceName, setResourceName] = useState('')
-  const queryClient = useQueryClient()
-
-  const createResourceMutation = useMutation({
-    mutationFn: createResource,
-    onSuccess: async () => {
+  const createResourceMutation = useCreateResourceMutation({
+    onSuccess: () => {
       setResourceName('')
-      await queryClient.invalidateQueries({ queryKey: resourcesQueryKey })
     },
   })
 

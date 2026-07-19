@@ -1,31 +1,20 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
 import { PageHeader } from '@pages/components/PageHeader'
 import { FeedbackMessage, StateMessage } from '@pages/components/messages'
-import {
-  getErrorMessage,
-  resourceQueryKey,
-  updateBasicInfo,
-} from '@resources-api'
-import { useResourceQuery } from '@resources/queries/useResourceQuery'
+import { getErrorMessage } from '@resources-api'
+import { useResourceQuery, useUpdateBasicInfoMutation } from '@resources/queries'
 import { BasicInfoForm, type BasicInfoPayload } from './basic-info'
 import { useResourceDrafts } from './resource-drafts'
 
 export function BasicInfoPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
   const navigate = useNavigate()
-  const queryClient = useQueryClient()
   const { getDraftResource, updateBasicInfoDraft } = useResourceDrafts()
 
   const resourceQuery = useResourceQuery(resourceId)
-  const updateBasicInfoMutation = useMutation({
-    mutationFn: (values: BasicInfoPayload) => updateBasicInfo(resourceId ?? '', values),
-    onSuccess: async (resource) => {
-      await queryClient.setQueryData(resourceQueryKey(String(resource.resourceId)), resource)
-    },
-  })
+  const updateBasicInfoMutation = useUpdateBasicInfoMutation(resourceId)
 
   const resource = resourceQuery.data
   const draftResource = resource ? getDraftResource(resource) : undefined

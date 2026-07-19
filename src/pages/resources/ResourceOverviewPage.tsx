@@ -1,42 +1,26 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BackButton } from '@pages/components/BackButton'
 import { PageCard } from '@pages/components/PageCard'
 import { FeedbackMessage, StateMessage } from '@pages/components/messages'
+import { getErrorMessage } from '@resources-api'
 import {
-  getErrorMessage,
-  provisionResource,
-  replaceResource,
-  resourceQueryKey,
-} from '@resources-api'
-import { useResourceQuery } from '@resources/queries/useResourceQuery'
+  useProvisionResourceMutation,
+  useReplaceResourceMutation,
+  useResourceQuery,
+} from '@resources/queries'
 import { ResourceOverviewContent } from './components/ResourceOverviewContent'
 import { useResourceDrafts } from './resource-drafts'
 
 export function ResourceOverviewPage() {
   const { resourceId } = useParams<{ resourceId: string }>()
   const navigate = useNavigate()
-  const queryClient = useQueryClient()
   const { clearDraft, getDraftResource, hasDraftChanges } = useResourceDrafts()
 
   const resourceQuery = useResourceQuery(resourceId)
-
-  const provisionResourceMutation = useMutation({
-    mutationFn: provisionResource,
-    onSuccess: async (resource) => {
-      await queryClient.setQueryData(resourceQueryKey(String(resource.resourceId)), resource)
-    },
-  })
-  const updateResourceMutation = useMutation({
-    mutationFn: (resource: NonNullable<typeof resourceQuery.data>) =>
-      replaceResource(String(resource.resourceId), {
-        name: resource.name,
-        basicInfo: resource.basicInfo,
-        projectDetails: resource.projectDetails,
-      }),
-    onSuccess: async (resource) => {
+  const provisionResourceMutation = useProvisionResourceMutation()
+  const updateResourceMutation = useReplaceResourceMutation({
+    onSuccess: (resource) => {
       clearDraft(String(resource.resourceId))
-      await queryClient.setQueryData(resourceQueryKey(String(resource.resourceId)), resource)
     },
   })
 

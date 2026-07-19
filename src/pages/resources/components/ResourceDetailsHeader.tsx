@@ -15,7 +15,7 @@ export function ResourceDetailsHeader({
     <Header>
       <Title>{resource.name}</Title>
       <Meta>
-        <Badge variant={resource.status === 'completed' ? 'success' : 'warning'}>
+        <Badge variant={resource.status === 'completed' ? 'success' : 'info'}>
           {resource.status}
         </Badge>
         {hasUnsavedChanges ? <Badge variant="warning">Unsaved changes</Badge> : null}

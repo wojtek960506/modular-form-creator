@@ -69,7 +69,11 @@ export function ResourceOverviewContent({
                 : 'Not provided'
             }`,
           ]}
-          actionLabel={basicInfoComplete ? 'Open Project Details' : 'Complete Basic Info first'}
+          actionLabel={
+            basicInfoComplete
+              ? (projectDetailsComplete ? 'Review Project Details' : 'Open Project Details')
+              : 'Complete Basic Info first'
+          }
           locked={!basicInfoComplete}
           onOpen={onOpenProjectDetails}
         />

@@ -1,11 +1,6 @@
 import { useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  deleteResource,
-  getErrorMessage,
-  getResources,
-  resourcesQueryKey,
-} from '@resources-api'
+import { getErrorMessage } from '@resources-api'
+import { useDeleteResourceMutation, useResourcesQuery } from '@resources/queries'
 import {
   FeedbackMessage,
   StateMessage,
@@ -24,20 +19,12 @@ import { ResourcesListItem } from './ResourcesListItem'
 
 export function ResourcesList() {
   const [deletingResourceId, setDeletingResourceId] = useState<string | null>(null)
-  const queryClient = useQueryClient()
-  const resourcesQuery = useQuery({
-    queryKey: resourcesQueryKey,
-    queryFn: getResources,
-  })
-  const deleteResourceMutation = useMutation({
-    mutationFn: deleteResource,
-    onMutate: async (resourceId) => {
+  const resourcesQuery = useResourcesQuery()
+  const deleteResourceMutation = useDeleteResourceMutation({
+    onMutate: (resourceId) => {
       setDeletingResourceId(resourceId)
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: resourcesQueryKey })
-    },
-    onSettled: async () => {
+    onSettled: () => {
       setDeletingResourceId(null)
     },
   })
