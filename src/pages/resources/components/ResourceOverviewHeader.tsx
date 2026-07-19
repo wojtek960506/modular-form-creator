@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import { Badge } from '@design-system/components/Badge'
 import type { Resource } from '@resources-api'
+import { formatResourceStatusLabel } from '@resources/formatResourceStatusLabel'
+import { formatUnsavedChangesLabel } from './formatUnsavedChangesLabel'
 
 interface ResourceOverviewHeaderProps {
   unsavedChangesCount?: number
@@ -16,10 +18,10 @@ export function ResourceOverviewHeader({
       <Title>{resource.name}</Title>
       <HeaderMeta>
         <Badge variant={resource.status === 'completed' ? 'success' : 'info'}>
-          {resource.status}
+          {formatResourceStatusLabel(resource.status)}
         </Badge>
         {unsavedChangesCount > 0 && (
-          <Badge variant="warning">{unsavedChangesCount} unsaved changes</Badge>
+          <Badge variant="warning">{formatUnsavedChangesLabel(unsavedChangesCount)}</Badge>
         )}
       </HeaderMeta>
     </Header>

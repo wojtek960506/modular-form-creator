@@ -26,6 +26,10 @@ export function BasicInfoFields({
     formState: { errors },
   } = useFormContext<BasicInfoFormValues>()
 
+  function getPriorityLabel(value: string) {
+    return priorityOptions.find((option) => option.value === value)?.label ?? value
+  }
+
   return (
     <>
       <Controller
@@ -109,7 +113,12 @@ export function BasicInfoFields({
               state={fieldsLocked ? 'disabled' : 'normal'}
               helperText={
                 getModifiedHelperText(editing, fieldState.isDirty) ??
-                getUnsavedHelperText(editing, field.value, persistedBasicInfo?.priority)
+                getUnsavedHelperText(
+                  editing,
+                  field.value,
+                  persistedBasicInfo?.priority,
+                  getPriorityLabel,
+                )
               }
               error={errors.priority?.message}
             />

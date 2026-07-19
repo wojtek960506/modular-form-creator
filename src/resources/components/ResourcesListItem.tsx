@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Badge } from '@design-system/components/Badge'
 import { Button } from '@design-system/components/Button'
 import type { Resource } from '@resources-api'
+import { formatResourceStatusLabel } from '@resources/formatResourceStatusLabel'
 import {
   DeleteButton,
   ResourceItem,
@@ -30,7 +31,7 @@ export function ResourcesListItem({
           <ResourceItemLink as={Link} to={`/resources/${resource.resourceId}`}>
             <ResourceName>{resource.name}</ResourceName>
             <Badge variant={resource.status === 'completed' ? 'success' : 'info'}>
-              {resource.status}
+              {formatResourceStatusLabel(resource.status)}
             </Badge>
           </ResourceItemLink>
         </ResourceItemContent>

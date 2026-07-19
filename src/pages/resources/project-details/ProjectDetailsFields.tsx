@@ -33,6 +33,10 @@ export function ProjectDetailsFields({
     formState: { errors },
   } = useFormContext<ProjectDetailsFormValues>()
 
+  function getCategoryLabel(value: string) {
+    return categoryOptions.find((option) => option.value === value)?.label ?? value
+  }
+
   return (
     <>
       <Controller
@@ -88,7 +92,12 @@ export function ProjectDetailsFields({
               state={fieldsLocked ? 'disabled' : 'normal'}
               helperText={
                 getModifiedHelperText(editing, fieldState.isDirty) ??
-                getUnsavedHelperText(editing, field.value, persistedProjectDetails?.category)
+                getUnsavedHelperText(
+                  editing,
+                  field.value,
+                  persistedProjectDetails?.category,
+                  getCategoryLabel,
+                )
               }
               error={errors.category?.message}
             />

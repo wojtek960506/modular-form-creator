@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Badge } from '@design-system/components/Badge'
 import type { ProjectDetails, Resource } from '@resources-api'
+import { formatUnsavedChangesLabel } from './formatUnsavedChangesLabel'
 import {
   DefinitionList,
   Description,
@@ -28,7 +29,7 @@ export function ProjectDetailsSection({
       <SectionHeader>
         <SectionTitle>Project details</SectionTitle>
         {unsavedChangesCount > 0 && (
-          <Badge variant="warning">{unsavedChangesCount} unsaved changes</Badge>
+          <Badge variant="warning">{formatUnsavedChangesLabel(unsavedChangesCount)}</Badge>
         )}
       </SectionHeader>
       <DefinitionList>

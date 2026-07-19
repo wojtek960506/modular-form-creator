@@ -14,12 +14,13 @@ export function getUnsavedHelperText(
   editing: boolean,
   value: string,
   persistedValue: string | undefined,
+  formatValue: (value: string) => string = getPreviousValue,
 ) {
   if (editing || persistedValue === undefined || value === persistedValue) {
     return undefined
   }
 
-  return `Unsaved. Previous value: ${getPreviousValue(persistedValue)}`
+  return `Unsaved. Previous value: ${formatValue(persistedValue)}`
 }
 
 export function getUnsavedOptionsHelperText(
