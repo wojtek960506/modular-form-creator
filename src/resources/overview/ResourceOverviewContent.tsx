@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { useResource } from '@resources/resource'
 import { ResourceOverviewActions } from './ResourceOverviewActions'
 import { ResourceOverviewHeader } from './ResourceOverviewHeader'
@@ -18,24 +17,14 @@ export function ResourceOverviewContent({
   onCompleteResource,
   onUpdateResource,
 }: ResourceOverviewContentProps) {
-  const navigate = useNavigate()
-  const { draftChangeCounts, draftResource } = useResource()
+  const { draftResource } = useResource()
 
   if (!draftResource) return null
 
-  const resource = draftResource
-  const unsavedChangesCount = draftChangeCounts.total
-
   return (
     <>
-      <ResourceOverviewHeader
-        resource={resource}
-        unsavedChangesCount={unsavedChangesCount}
-      />
-      <ResourceProgressPanel
-        resource={resource}
-        onOpenDetails={() => navigate(`/resources/${resource.resourceId}/details`)}
-      />
+      <ResourceOverviewHeader />
+      <ResourceProgressPanel />
 
       <ResourceOverviewModules />
 

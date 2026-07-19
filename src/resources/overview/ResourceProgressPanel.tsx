@@ -1,15 +1,17 @@
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Button } from '@design-system/components/Button'
 import { Card } from '@design-system/components/Card'
-import type { Resource } from '@resources/api'
+import { useResource } from '@resources/resource'
 import { getCompletedModulesCount } from '@resources/resourceCompletion'
 
-interface ResourceProgressPanelProps {
-  onOpenDetails: () => void
-  resource: Resource
-}
+export function ResourceProgressPanel() {
+  const navigate = useNavigate()
+  const { draftResource } = useResource()
 
-export function ResourceProgressPanel({ onOpenDetails, resource }: ResourceProgressPanelProps) {
+  if (!draftResource) return null
+
+  const resource = draftResource
   const completedModulesCount = getCompletedModulesCount(resource)
 
   return (
@@ -25,7 +27,7 @@ export function ResourceProgressPanel({ onOpenDetails, resource }: ResourceProgr
         type="button"
         variant="secondary"
         fullWidth
-        onClick={onOpenDetails}
+        onClick={() => navigate(`/resources/${resource.resourceId}/details`)}
       >
         View details
       </Button>
