@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { replaceResource, type Resource } from '@resources-api'
+import { replaceResource, type Resource } from '@resources/api'
 import { setResourceQueryData } from './queryClientHelpers'
 
 interface UseReplaceResourceMutationOptions {

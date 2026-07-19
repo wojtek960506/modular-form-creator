@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createResource } from '@resources-api'
+import { createResource } from '@resources/api'
 import { invalidateResourcesQuery } from './queryClientHelpers'
 
 interface UseCreateResourceMutationOptions {

@@ -1,4 +1,4 @@
-import type { BasicInfo, ProjectDetails, Resource } from '@resources-api'
+import type { BasicInfo, ProjectDetails, Resource } from '@resources/api'
 
 export function isBasicInfoComplete(basicInfo: BasicInfo) {
   return Boolean(

@@ -17,7 +17,7 @@ export default defineConfig({
       '@design-system': path.resolve(dirname, 'src/design-system'),
       '@pages': path.resolve(dirname, 'src/pages'),
       '@resources': path.resolve(dirname, 'src/resources'),
-      '@resources-api': path.resolve(dirname, 'src/resources.api.ts')
+      '@shared': path.resolve(dirname, 'src/shared')
     }
   },
   test: {
