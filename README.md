@@ -1,5 +1,18 @@
 # Frontend Modular Form Creator Assignment
 
+### Full stack via Docker Compose
+
+The repository now includes a frontend service in `docker-compose.yml`, so the full stack can be started with:
+
+```bash
+docker compose up --build -d
+```
+
+Available services:
+- frontend: `http://localhost:5173`
+- backend: `http://localhost:5001`
+- Swagger UI: `http://localhost:5001/docs`
+
 ## 1. Business Analysis
 
 ### Product context
