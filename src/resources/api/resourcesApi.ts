@@ -4,7 +4,10 @@ const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5001',
 })
 
-export const resourcesQueryKey = ['resources'] as const
+export const resourcesQueryKeyBase = ['resources'] as const
+export const DEFAULT_RESOURCES_PAGE_SIZE = 15
+export const resourcesQueryKey = (page: number, pageSize = DEFAULT_RESOURCES_PAGE_SIZE) =>
+  [...resourcesQueryKeyBase, page, pageSize] as const
 export const resourceQueryKey = (resourceId: string) => ['resources', resourceId] as const
 
 export interface BasicInfo {
@@ -53,11 +56,11 @@ export interface ReplaceResourceInput {
   projectDetails: ProjectDetails
 }
 
-export async function getResources() {
+export async function getResources(page: number, pageSize = DEFAULT_RESOURCES_PAGE_SIZE) {
   const response = await apiClient.get<ResourcesResponse>('/api/resources', {
     params: {
-      page: 1,
-      pageSize: 10,
+      page,
+      pageSize,
       sortOrder: 'desc',
     },
   })

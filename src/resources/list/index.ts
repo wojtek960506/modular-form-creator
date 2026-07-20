@@ -1,4 +1,5 @@
 export { CreateResourceForm } from './CreateResourceForm'
 export { ConfirmDeleteDialog } from './ConfirmDeleteDialog'
 export { ResourcesHeader } from './ResourcesHeader'
+export { ResourcesPagination } from './ResourcesPagination'
 export { ResourcesList } from './ResourcesList'

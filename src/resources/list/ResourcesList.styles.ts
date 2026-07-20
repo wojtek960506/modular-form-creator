@@ -6,8 +6,16 @@ export const Section = styled.section`
   gap: ${({ theme }) => theme.spacing.md};
 
   @media (min-height: 700px) {
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
     min-height: 0;
+  }
+`
+
+export const SectionBody = styled.div`
+  min-height: 0;
+
+  @media (min-height: 700px) {
+    overflow: auto;
   }
 `
 
@@ -34,11 +42,6 @@ export const List = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
-
-  @media (min-height: 700px) {
-    min-height: 0;
-    overflow: auto;
-  }
 `
 
 export const ResourceItem = styled.li`

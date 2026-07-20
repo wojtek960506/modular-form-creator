@@ -1,8 +1,8 @@
 import type { QueryClient } from '@tanstack/react-query'
-import { resourceQueryKey, resourcesQueryKey, type Resource } from '@resources/api'
+import { resourceQueryKey, resourcesQueryKeyBase, type Resource } from '@resources/api'
 
 export async function invalidateResourcesQuery(queryClient: QueryClient) {
-  await queryClient.invalidateQueries({ queryKey: resourcesQueryKey })
+  await queryClient.invalidateQueries({ queryKey: resourcesQueryKeyBase })
 }
 
 export async function setResourceQueryData(queryClient: QueryClient, resource: Resource) {
