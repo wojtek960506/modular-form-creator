@@ -11,17 +11,26 @@ import { ResourceDraftsProvider } from '@resources/resource-drafts'
 function App() {
   return (
     <AppShell>
-      <ResourceDraftsProvider>
-        <Routes>
-          <Route path="/" element={<Navigate to="/resources" replace />} />
-          <Route path="/resources" element={<ResourcesPage />} />
-          <Route path="/resources/:resourceId" element={<ResourceOverviewPage />} />
-          <Route path="/resources/:resourceId/details" element={<ResourceDetailsPage />} />
-          <Route path="/resources/:resourceId/basic-info" element={<BasicInfoPage />} />
-          <Route path="/resources/:resourceId/project-details" element={<ProjectDetailsPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </ResourceDraftsProvider>
+      <AppContent>
+        <ResourceDraftsProvider>
+          <Routes>
+            <Route path="/" element={<Navigate to="/resources" replace />} />
+            <Route path="/resources" element={<ResourcesPage />} />
+            <Route path="/resources/:resourceId" element={<ResourceOverviewPage />} />
+            <Route path="/resources/:resourceId/details" element={<ResourceDetailsPage />} />
+            <Route path="/resources/:resourceId/basic-info" element={<BasicInfoPage />} />
+            <Route path="/resources/:resourceId/project-details" element={<ProjectDetailsPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </ResourceDraftsProvider>
+
+        <Footer>
+          Recruitment Task for Cloudfide created by{' '}
+          <FooterLink href="https://devonion.com" target="_blank" rel="noreferrer">
+            Wojciech Zieliński
+          </FooterLink>
+        </Footer>
+      </AppContent>
     </AppShell>
   )
 }
@@ -30,11 +39,37 @@ const AppShell = styled.div`
   display: flex;
   width: 100%;
   box-sizing: border-box;
-  padding: ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.lg};
   min-width: 24rem;
   justify-content: center;
   overflow-x: auto;
   overflow-y: auto;
+`
+
+const AppContent = styled.div`
+  width: min(100%, 720px);
+  display: grid;
+  gap: ${({ theme }) => theme.spacing.md};
+  justify-items: center;
+  --footer-font-size: 14px;
+  --app-footer-space: calc(${({ theme }) => theme.spacing.md} + var(--footer-font-size));
+`
+
+const Footer = styled.footer`
+  color: ${({ theme }) => theme.colors.inkMuted};
+  font-size: var(--footer-font-size);
+  line-height: 1;
+  text-align: center;
+`
+
+const FooterLink = styled.a`
+  color: ${({ theme }) => theme.colors.primaryStrong};
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 export default App

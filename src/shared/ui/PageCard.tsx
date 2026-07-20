@@ -21,8 +21,8 @@ export const PageCard = styled.div<PageCardProps>`
       ? css`
           @media (min-height: 700px) {
             grid-template-rows: auto auto minmax(0, 1fr);
-            min-height: calc(100vh - ${theme.spacing.xl} * 2);
-            max-height: calc(100vh - ${theme.spacing.xl} * 2);
+            min-height: calc(100vh - ${theme.spacing.lg} * 2 - var(--app-footer-space, 0px));
+            max-height: calc(100vh - ${theme.spacing.lg} * 2 - var(--app-footer-space, 0px));
             overflow: hidden;
           }
         `
