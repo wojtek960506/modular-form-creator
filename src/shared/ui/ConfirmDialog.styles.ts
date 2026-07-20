@@ -38,6 +38,8 @@ export const Title = styled.h2`
 export const Description = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.colors.inkMuted};
+  overflow-wrap: anywhere;
+  word-break: break-word;
 `
 
 export const Actions = styled.div`

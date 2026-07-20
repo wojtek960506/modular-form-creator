@@ -5,7 +5,7 @@
 The repository now includes a frontend service in `docker-compose.yml`, so the full stack can be started with:
 
 ```bash
-docker compose up --build -d
+docker compose up -d
 ```
 
 Available services:
