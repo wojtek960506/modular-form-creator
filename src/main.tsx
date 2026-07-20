@@ -7,7 +7,13 @@ import App from './App'
 import { GlobalStyles } from '@design-system/theme/GlobalStyles'
 import { theme } from '@design-system/theme/theme'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+    },
+  },
+})
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

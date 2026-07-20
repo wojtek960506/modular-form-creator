@@ -30,11 +30,7 @@ export function ResourceOverviewModules() {
         status={basicInfoComplete ? 'complete' : 'incomplete'}
         summary={[
           `Owner: ${resource.basicInfo.owner || 'Not provided'}`,
-          `Priority: ${
-            resource.basicInfo.priority
-              ? formatPriorityLabel(resource.basicInfo.priority)
-              : 'Not provided'
-          }`,
+          `Priority: ${formatPriorityLabel(resource.basicInfo.priority)}`,
         ]}
         actionLabel={basicInfoComplete ? 'Review Basic Info' : 'Set Basic Info'}
         unsavedChangesCount={basicInfoUnsavedChangesCount}

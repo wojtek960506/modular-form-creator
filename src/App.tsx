@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
 import { BasicInfoPage } from '@resources/pages/BasicInfoPage'
+import { NotFoundPage } from '@resources/pages/NotFoundPage'
 import { ProjectDetailsPage } from '@resources/pages/ProjectDetailsPage'
 import { ResourceDetailsPage } from '@resources/pages/ResourceDetailsPage'
 import { ResourceOverviewPage } from '@resources/pages/ResourceOverviewPage'
@@ -18,6 +19,7 @@ function App() {
           <Route path="/resources/:resourceId/details" element={<ResourceDetailsPage />} />
           <Route path="/resources/:resourceId/basic-info" element={<BasicInfoPage />} />
           <Route path="/resources/:resourceId/project-details" element={<ProjectDetailsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </ResourceDraftsProvider>
     </AppShell>
